@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOU Wish List · Live Board</title>
+<meta name="theme-color" content="#0b1f3a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0b1f3a;
+    --navy-deep:   #061226;
+    --gold:        #c8a44b;
+    --gold-bright: #e3bf63;
+    --ink:         #14181f;
+    --paper:       #f5f2ea;
+    --paper-warm:  #ece7d8;
+    --line:        #d8d2c0;
+    --muted:       #6b6f78;
+    --up:          #1e6f3a;
+    --down:        #a4341c;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: 'Inter', sans-serif; }
+  body {
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(200,164,75,.18), transparent 60%),
+      radial-gradient(800px 600px at -10% 110%, rgba(11,31,58,.10), transparent 55%),
+      var(--paper);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(180deg, var(--navy), var(--navy-deep));
+    color: var(--paper);
+    border-bottom: 4px solid var(--gold);
+    padding: 22px 24px;
+  }
+  .h-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .crest {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--gold); color: var(--navy-deep);
+    display: grid; place-items: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 20px;
+    box-shadow: inset 0 0 0 2px var(--navy-deep), 0 0 0 2px var(--gold-bright);
+  }
+  header h1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    margin: 0; font-size: clamp(18px, 2.6vw, 24px);
+  }
+  header .sub {
+    color: var(--gold-bright);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: .22em; text-transform: uppercase;
+    font-size: 10px;
+  }
+  header .meta {
+    margin-left: auto;
+    font-size: 12px;
+    color: rgba(245,242,234,.7);
+    font-family: 'Oswald', sans-serif; letter-spacing: .12em; text-transform: uppercase;
+  }
+  header .meta b { color: var(--gold-bright); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 22px 20px 80px; }
+
+  .toolbar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 18px;
+    background: white;
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
+  }
+  .pill {
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all .15s;
+  }
+  .pill:hover { border-color: var(--navy); }
+  .pill.active { background: var(--navy); color: var(--gold-bright); border-color: var(--navy); }
+  .pill .count { color: var(--muted); margin-left: 6px; font-weight: 500; }
+  .pill.active .count { color: rgba(227,191,99,.7); }
+  .spacer { flex: 1; }
+  .sort-select {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 7px 10px;
+    background: white;
+    color: var(--navy);
+    cursor: pointer;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .item {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gold);
+    padding: 14px 16px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 20px -16px rgba(6,18,38,.35);
+    position: relative;
+  }
+
+  .item-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    flex-wrap: wrap;
+  }
+  .mou-tag {
+    background: var(--navy);
+    color: var(--gold-bright);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .cat-tag {
+    background: var(--paper-warm);
+    color: var(--navy);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .proposal {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    flex: 1;
+    margin-bottom: 12px;
+    word-wrap: break-word;
+  }
+  .proposal a {
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 2px;
+  }
+  .proposal a:hover { color: var(--navy-deep); }
+
+  .item-foot {
+    display: flex; align-items: center; gap: 12px;
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  .thumb {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: var(--muted);
+  }
+  .thumb.up   { color: var(--up); }
+  .thumb.down { color: var(--down); }
+  .thumb svg { width: 14px; height: 14px; }
+  .ts {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+  }
+  .state h2 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--navy);
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #ece7d8 0%, #f5f2ea 50%, #ece7d8 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+    height: 140px;
+    border-left: 4px solid var(--line);
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    padding: 20px 16px 30px;
+    letter-spacing: .04em;
+  }
+  footer a {
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="crest">L</div>
+    <div>
+      <h1>MOU Wish List · Live Board</h1>
+      <div class="sub">LAAPOA · Member Proposals</div>
+    </div>
+    <div class="meta">
+      <span id="last-update">Loading…</span> &nbsp;·&nbsp;
+      <b id="total-count">0</b> items
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar" id="toolbar">
+    <button class="pill active" data-mou="all">All <span class="count" id="count-all">0</span></button>
+    <button class="pill" data-mou="MOU 30/39">Airport Police <span class="count" id="count-MOU 30/39">0</span></button>
+    <button class="pill" data-mou="MOU 28">LAPD Municipal <span class="count" id="count-MOU 28">0</span></button>
+    <button class="pill" data-mou="MOU 65">Park Rangers <span class="count" id="count-MOU 65">0</span></button>
+    <div class="spacer"></div>
+    <select class="sort-select" id="sort">
+      <option value="net">Sort: Most Upvoted</option>
+      <option value="newest">Sort: Newest</option>
+      <option value="category">Sort: Category</option>
+    </select>
+  </div>
+
+  <div id="grid" class="grid">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </div>
+
+  <div class="state" id="empty" style="display:none;">
+    <h2>No submissions yet</h2>
+    <p>Be the first &mdash; submit a proposal on the wish-list form.</p>
+  </div>
+</main>
+
+<footer>
+  Read-only public view. Members can vote in the LAAPOA app. ·
+  <a href="../">Submit a proposal →</a>
+</footer>
+
+<script>
+  // ============================================================
+  // CONFIG
+  // ============================================================
+  const API_URL = 'https://mouwish-api.mike-a78.workers.dev/api/list';
+  const REFRESH_MS = 30_000;
+
+  let allItems = [];
+  let filter = 'all';
+  let sortMode = 'net';
+
+  // ============================================================
+  // FETCH
+  // ============================================================
+  async function load() {
+    try {
+      const res = await fetch(API_URL, { cache: 'no-store' });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Bad response');
+      allItems = data.items || [];
+      updateCounts(data.counts || {});
+      render();
+      document.getElementById('last-update').textContent =
+        'Updated ' + new Date(data.generatedAt || Date.now()).toLocaleTimeString();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('last-update').textContent = 'Update failed';
+    }
+  }
+
+  function updateCounts(counts) {
+    let total = 0;
+    Object.entries(counts).forEach(([mou, n]) => {
+      const el = document.getElementById('count-' + mou);
+      if (el) el.textContent = n;
+      total += n;
+    });
+    document.getElementById('count-all').textContent = total;
+    document.getElementById('total-count').textContent = total;
+  }
+
+  // ============================================================
+  // RENDER
+  // ============================================================
+  function render() {
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('empty');
+
+    let items = filter === 'all' ? allItems.slice() : allItems.filter(i => i.mou === filter);
+
+    items.sort((a, b) => {
+      if (sortMode === 'net')      return (b.netScore || 0) - (a.netScore || 0);
+      if (sortMode === 'newest')   return new Date(b.timestamp) - new Date(a.timestamp);
+      if (sortMode === 'category') return String(a.category).localeCompare(String(b.category));
+      return 0;
+    });
+
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    // Render via DOM (not innerHTML for the proposal body) so we can
+    // re-sanitize the server-trusted HTML one more time on the client.
+    grid.innerHTML = '';
+    items.forEach(i => grid.appendChild(buildCard(i)));
+  }
+
+  function buildCard(i) {
+    const ts = i.timestamp ? new Date(i.timestamp) : null;
+    const tsStr = ts ? ts.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '';
+
+    const article = document.createElement('article');
+    article.className = 'item';
+
+    const head = document.createElement('div');
+    head.className = 'item-head';
+    head.innerHTML = `
+      <span class="mou-tag">${escapeHtml(i.mou || '')}</span>
+      <span class="cat-tag">${escapeHtml(i.category || '')}</span>
+    `;
+    article.appendChild(head);
+
+    const proposal = document.createElement('div');
+    proposal.className = 'proposal';
+    // Server already sanitized; we re-sanitize as defense-in-depth.
+    proposal.innerHTML = clientSanitize(i.proposalHtml || escapeHtml(i.proposal || ''));
+    article.appendChild(proposal);
+
+    const foot = document.createElement('div');
+    foot.className = 'item-foot';
+    foot.innerHTML = `
+      <span class="thumb up" title="Upvotes">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>
+        ${i.thumbsUp || 0}
+      </span>
+      <span class="thumb down" title="Downvotes">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(180deg)"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>
+        ${i.thumbsDown || 0}
+      </span>
+      <span class="ts">${escapeHtml(tsStr)}</span>
+    `;
+    article.appendChild(foot);
+
+    return article;
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Defense-in-depth: re-sanitize server HTML before injecting.
+  function clientSanitize(html) {
+    const tmpl = document.createElement('template');
+    tmpl.innerHTML = String(html || '');
+    sanitizeNode(tmpl.content);
+    return tmpl.innerHTML;
+  }
+  function sanitizeNode(root) {
+    Array.from(root.childNodes).forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) return;
+      if (node.nodeType !== Node.ELEMENT_NODE) { node.remove(); return; }
+      const tag = node.tagName.toLowerCase();
+      if (tag === 'a') {
+        const href = (node.getAttribute('href') || '').trim();
+        const safe = /^(https?:|mailto:)/i.test(href);
+        Array.from(node.attributes).forEach(a => node.removeAttribute(a.name));
+        if (!safe) { unwrap(node); return; }
+        node.setAttribute('href', href);
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+        sanitizeNode(node);
+        return;
+      }
+      if (['b','strong','i','em','u','br'].includes(tag)) {
+        Array.from(node.attributes).forEach(a => node.removeAttribute(a.name));
+        sanitizeNode(node);
+        return;
+      }
+      sanitizeNode(node);
+      unwrap(node);
+    });
+  }
+  function unwrap(el) {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+  }
+
+  // ============================================================
+  // EVENTS
+  // ============================================================
+  document.getElementById('toolbar').addEventListener('click', e => {
+    const btn = e.target.closest('.pill');
+    if (!btn) return;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    filter = btn.dataset.mou;
+    render();
+  });
+  document.getElementById('sort').addEventListener('change', e => {
+    sortMode = e.target.value;
+    render();
+  });
+
+  // ============================================================
+  // GO
+  // ============================================================
+  load();
+  setInterval(load, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') load();
+  });
+</script>
+</body>
+</html>
