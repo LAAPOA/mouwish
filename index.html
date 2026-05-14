@@ -62,13 +62,14 @@
     display: flex; align-items: center; gap: 18px;
   }
   .crest {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: var(--gold); color: var(--navy-deep);
+    width: 72px; height: 72px;
     display: grid; place-items: center;
-    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 22px;
-    letter-spacing: .04em;
-    box-shadow: inset 0 0 0 3px var(--navy-deep), 0 0 0 3px var(--gold-bright);
     flex-shrink: 0;
+  }
+  .crest img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
   }
   .header h1 {
     font-family: 'Oswald', sans-serif; font-weight: 700;
@@ -345,6 +346,148 @@
   .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
   .submit-note { font-size: 12px; color: var(--muted); }
 
+  /* Countdown timer */
+  .countdown {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-lg);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+  @media (max-width: 540px) {
+    .countdown { grid-template-columns: 1fr; text-align: center; }
+  }
+  .countdown-label {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold-bright);
+    margin-bottom: 4px;
+  }
+  .countdown-deadline {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(245,242,234,.85);
+  }
+  .countdown-clock {
+    display: flex;
+    gap: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+  }
+  @media (max-width: 540px) { .countdown-clock { justify-content: center; } }
+  .countdown-unit {
+    background: rgba(0,0,0,.25);
+    border: 1px solid rgba(200,164,75,.35);
+    border-radius: 3px;
+    padding: 8px 10px;
+    min-width: 56px;
+    text-align: center;
+  }
+  .countdown-num {
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--gold-bright);
+    letter-spacing: .04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown-tag {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: rgba(245,242,234,.7);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .countdown.urgent {
+    border-color: #e85d3a;
+    background: linear-gradient(135deg, #6b1a10 0%, #3d0a05 100%);
+  }
+  .countdown.urgent .countdown-num { color: #ffb89e; }
+  .countdown.urgent .countdown-label { color: #ffb89e; }
+
+  /* Closed window 404-style screen */
+  .closed-screen {
+    text-align: center;
+    padding: 60px 24px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .closed-code {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(80px, 18vw, 140px);
+    line-height: 1;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: .04em;
+    text-shadow: 0 4px 12px rgba(200,164,75,.25);
+    margin-bottom: 8px;
+  }
+  .closed-bar {
+    width: 80px; height: 3px;
+    background: var(--gold);
+    margin: 18px auto 24px;
+  }
+  .closed-screen h2 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--navy);
+    font-size: clamp(20px, 3.5vw, 26px);
+    margin: 0 0 14px;
+  }
+  .closed-screen p {
+    color: #2e333c;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 14px;
+  }
+  .closed-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .closed-btn {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--gold-bright);
+    border: 2px solid var(--gold);
+    padding: 12px 24px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all .15s;
+  }
+  .closed-btn:hover {
+    background: var(--gold);
+    color: var(--navy-deep);
+  }
+  .closed-btn.alt {
+    background: white;
+    color: var(--navy);
+    border-color: var(--line);
+  }
+  .closed-btn.alt:hover {
+    background: var(--paper-warm);
+    color: var(--navy-deep);
+  }
+
   .toast {
     position: fixed; bottom: 20px; left: 50%;
     transform: translateX(-50%) translateY(120%);
@@ -454,7 +597,7 @@
 
 <header class="header">
   <div class="header-inner">
-    <div class="crest">L</div>
+    <div class="crest"><img src="https://raw.githubusercontent.com/LAAPOA/grievancecenter/main/laapoa_logo_transparent.png" alt="LAAPOA"></div>
     <div>
       <h1>MOU Wish List</h1>
       <div class="sub">Los Angeles Airport Peace Officers Association</div>
@@ -464,6 +607,19 @@
 
 <main>
   <div id="form-wrap">
+
+    <div class="countdown" id="countdown">
+      <div>
+        <div class="countdown-label">Submissions Close In</div>
+        <div class="countdown-deadline" id="countdown-deadline">Wednesday, May 20, 2026 at 12:00 PM Pacific</div>
+      </div>
+      <div class="countdown-clock" aria-live="polite">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-d">--</span><span class="countdown-tag">Days</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-h">--</span><span class="countdown-tag">Hours</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-m">--</span><span class="countdown-tag">Min</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-s">--</span><span class="countdown-tag">Sec</span></div>
+      </div>
+    </div>
 
     <div class="intro">
       <p><strong>Your voice. Your contract.</strong> Submit proposals for the upcoming round of negotiations. Submissions are <strong>anonymous by default</strong> &mdash; opt in below if you want to be contacted for follow-up. Each submission can be voted on by the membership in the LAAPOA app.</p>
@@ -543,6 +699,19 @@
     </div>
   </div>
 
+  <div class="closed-screen" id="closed-screen" style="display:none;">
+    <div class="closed-code">404</div>
+    <div class="closed-bar"></div>
+    <h2>Submission Window Closed</h2>
+    <p>The MOU Wish List submission window closed on <strong>Wednesday, May 20, 2026 at 12:00 PM Pacific</strong>.</p>
+    <p>Thank you to every member who shared their priorities for the upcoming round of negotiations. All submitted ideas are now under review by the LAAPOA bargaining team.</p>
+    <p>Members can still view all submitted ideas and react with 👍 / 👎 inside the LAAPOA membership app under the <strong>Announcements</strong> tab. The public board remains visible at the link below.</p>
+    <div class="closed-actions">
+      <a class="closed-btn" href="viewer/">View the public board</a>
+      <a class="closed-btn alt" href="https://laapoa.org" target="_blank" rel="noopener">LAAPOA.org</a>
+    </div>
+  </div>
+
   <div class="success" id="success-screen">
     <div class="check">&#10003;</div>
     <h2>Submission Received</h2>
@@ -584,6 +753,61 @@
   // CONFIG
   // ============================================================
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9CjcptGARIL3JrYos7JhYjHBzWiPwnx0uu9TUKAdz8u-EAnd5CFFWdm2Xc9HYka74vw/exec';
+
+  // Submission deadline: Wednesday May 20, 2026 at 12:00 PM Pacific.
+  // Pacific = UTC-7 in May (Daylight Time), so 12:00 PT = 19:00 UTC.
+  const DEADLINE = new Date('2026-05-20T19:00:00Z');
+
+  // ============================================================
+  // COUNTDOWN + WINDOW GATE
+  // ============================================================
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = DEADLINE.getTime() - now.getTime();
+    if (diff <= 0) {
+      // Closed. Replace the entire form with the 404-style screen.
+      showClosedScreen();
+      return false;
+    }
+    const sec = Math.floor(diff / 1000);
+    const days  = Math.floor(sec / 86400);
+    const hours = Math.floor((sec % 86400) / 3600);
+    const mins  = Math.floor((sec % 3600) / 60);
+    const secs  = sec % 60;
+    document.getElementById('cd-d').textContent = pad2(days);
+    document.getElementById('cd-h').textContent = pad2(hours);
+    document.getElementById('cd-m').textContent = pad2(mins);
+    document.getElementById('cd-s').textContent = pad2(secs);
+
+    // Urgent styling in the final 24 hours
+    const cd = document.getElementById('countdown');
+    if (diff < 24 * 3600 * 1000) cd.classList.add('urgent');
+    else cd.classList.remove('urgent');
+    return true;
+  }
+
+  function showClosedScreen() {
+    const form = document.getElementById('form-wrap');
+    const success = document.getElementById('success-screen');
+    const closed = document.getElementById('closed-screen');
+    if (form) form.style.display = 'none';
+    if (success) success.classList.remove('show');
+    if (closed) closed.style.display = 'block';
+    // Update the page title for clarity
+    document.title = '404 · MOU Wish List Closed · LAAPOA';
+    // Stop the interval — nothing else to update
+    if (window.__cdInterval) {
+      clearInterval(window.__cdInterval);
+      window.__cdInterval = null;
+    }
+  }
+
+  // Kick off immediately, then every second
+  if (updateCountdown()) {
+    window.__cdInterval = setInterval(updateCountdown, 1000);
+  }
 
   const CATEGORIES = [
     { key: 'wages',      label: 'Wages',              icon: '$' },
@@ -1028,6 +1252,12 @@
     const btn = document.getElementById('submit-btn');
     const items = collectItems();
     const mou = document.getElementById('mou').value;
+
+    // Hard gate: deadline check
+    if (new Date().getTime() >= DEADLINE.getTime()) {
+      showClosedScreen();
+      return;
+    }
 
     if (!mou)             { toast('Please select your MOU.', 'error'); return; }
     if (items.length === 0) { toast('Add at least one item.', 'error'); return; }
