@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LAAPOA MOU Wish List</title>
+<meta name="theme-color" content="#0b1f3a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0b1f3a;
+    --navy-deep:   #061226;
+    --gold:        #c8a44b;
+    --gold-bright: #e3bf63;
+    --ink:         #14181f;
+    --paper:       #f5f2ea;
+    --paper-warm:  #ece7d8;
+    --line:        #d8d2c0;
+    --muted:       #6b6f78;
+    --danger:      #a4341c;
+    --ok:          #1e6f3a;
+    --shadow-lg:   0 18px 40px -20px rgba(6,18,38,.35), 0 6px 14px -8px rgba(6,18,38,.25);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(200,164,75,.18), transparent 60%),
+      radial-gradient(800px 600px at -10% 110%, rgba(11,31,58,.10), transparent 55%),
+      var(--paper);
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: var(--paper);
+    padding: 28px 24px 22px;
+    border-bottom: 4px solid var(--gold);
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(135deg,
+      rgba(200,164,75,.05) 0px, rgba(200,164,75,.05) 2px,
+      transparent 2px, transparent 14px);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 880px; margin: 0 auto;
+    position: relative;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .crest {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--gold); color: var(--navy-deep);
+    display: grid; place-items: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 22px;
+    letter-spacing: .04em;
+    box-shadow: inset 0 0 0 3px var(--navy-deep), 0 0 0 3px var(--gold-bright);
+    flex-shrink: 0;
+  }
+  .header h1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    margin: 0; font-size: clamp(20px, 3.4vw, 30px); line-height: 1.05;
+  }
+  .header .sub {
+    color: var(--gold-bright);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: .22em; text-transform: uppercase;
+    font-size: 11px; margin-top: 4px;
+  }
+
+  main { max-width: 880px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  .intro {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gold);
+    padding: 18px 20px; margin-bottom: 28px;
+    box-shadow: var(--shadow-lg);
+  }
+  .intro p { margin: 0; color: #2e333c; }
+  .intro strong { color: var(--navy); }
+
+  .card {
+    background: white;
+    border: 1px solid var(--line); border-radius: 2px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 22px; overflow: hidden;
+  }
+  .card-head {
+    background: linear-gradient(180deg, #fbfaf5 0%, #f3eedd 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .card-head .num {
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    color: var(--navy); background: var(--gold);
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border-radius: 50%; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .card-head h2 {
+    font-family: 'Oswald', sans-serif; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    margin: 0; font-size: 16px; color: var(--navy);
+  }
+  .card-body { padding: 20px; }
+
+  label {
+    display: block;
+    font-family: 'Oswald', sans-serif; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    font-size: 11px; color: var(--navy);
+    margin-bottom: 6px;
+  }
+  label .req { color: var(--danger); margin-left: 4px; }
+
+  input[type="text"], input[type="email"], input[type="tel"], select {
+    width: 100%;
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--ink); background: #fff;
+    border: 1px solid var(--line);
+    padding: 10px 12px; border-radius: 2px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus, .rich-wrap:focus-within {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(11,31,58,.12);
+  }
+  input[disabled] {
+    background: #efece3; color: var(--muted); cursor: not-allowed;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+
+  .hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .hint.bad { color: var(--danger); }
+
+  .id-toggle {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 14px;
+    background: #fbfaf5;
+    border: 1px dashed var(--line);
+    margin-top: 10px;
+    cursor: pointer; user-select: none;
+  }
+  .id-toggle input { margin-top: 3px; flex-shrink: 0; }
+  .id-toggle span { font-size: 13px; color: #2e333c; line-height: 1.4; }
+  .id-toggle:hover { background: #f5eed8; }
+
+  .id-fields {
+    margin-top: 14px; padding: 16px;
+    background: #fbfaf5;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    display: none;
+  }
+  .id-fields.show { display: block; }
+
+  .cat-block {
+    border: 1px solid var(--line);
+    margin-bottom: 12px;
+    background: #fdfcf6;
+  }
+  .cat-head {
+    padding: 12px 14px;
+    background: var(--paper-warm);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; cursor: pointer;
+    border-bottom: 1px solid var(--line);
+  }
+  .cat-head:hover { background: #e0d9c1; }
+  .cat-title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 600; color: var(--navy);
+    font-size: 13px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cat-icon {
+    width: 22px; height: 22px;
+    background: var(--navy); color: var(--gold);
+    display: grid; place-items: center;
+    border-radius: 50%; font-size: 11px;
+    font-family: 'Oswald', sans-serif;
+  }
+  .cat-count {
+    font-size: 11px; color: var(--muted);
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+  }
+  .cat-count.has { color: var(--ok); font-weight: 600; }
+  .cat-body { padding: 14px; display: none; }
+  .cat-body.show { display: block; }
+
+  /* Rich wish row */
+  .wish-row {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .wish-row:last-child { border-bottom: none; }
+
+  .rich-wrap {
+    border: 1px solid var(--line);
+    background: white;
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .rich-toolbar {
+    display: flex; align-items: center; gap: 2px;
+    padding: 6px 8px;
+    background: #fbfaf5;
+    border-bottom: 1px solid var(--line);
+  }
+  .rich-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--navy);
+    width: 30px; height: 28px;
+    display: inline-grid; place-items: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .12s;
+  }
+  .rich-btn:hover { background: var(--paper-warm); border-color: var(--line); }
+  .rich-btn.active {
+    background: var(--navy);
+    color: var(--gold-bright);
+    border-color: var(--navy);
+  }
+  .rich-btn b { font-weight: 800; }
+  .rich-btn i { font-style: italic; }
+  .rich-btn.link { font-size: 14px; }
+  .rich-sep {
+    width: 1px; height: 20px;
+    background: var(--line);
+    margin: 0 4px;
+  }
+  .rich-hint {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  @media (max-width: 480px) { .rich-hint { display: none; } }
+
+  .rich-area {
+    min-height: 70px;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+    outline: none;
+    word-wrap: break-word;
+  }
+  .rich-area:empty::before {
+    content: attr(data-placeholder);
+    color: #b3b0a6;
+    pointer-events: none;
+  }
+  .rich-area a {
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 2px;
+  }
+  .rich-area a:hover { color: var(--navy-deep); }
+
+  .btn-remove {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 18px; line-height: 1;
+    width: 36px; height: 36px;
+    cursor: pointer; border-radius: 2px;
+    transition: all .15s;
+  }
+  .btn-remove:hover {
+    background: var(--danger); border-color: var(--danger); color: white;
+  }
+
+  .btn-add {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px dashed var(--navy);
+    color: var(--navy);
+    padding: 8px 14px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; border-radius: 2px;
+    transition: all .15s;
+  }
+  .btn-add:hover { background: var(--navy); color: var(--gold); }
+
+  .submit-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .btn-submit {
+    background: var(--navy); color: var(--gold-bright);
+    border: 2px solid var(--gold);
+    padding: 14px 28px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .14em;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; border-radius: 2px;
+    box-shadow: 0 6px 14px -6px rgba(11,31,58,.5);
+    transition: all .15s;
+  }
+  .btn-submit:hover:not(:disabled) {
+    background: var(--gold); color: var(--navy-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px -6px rgba(11,31,58,.55);
+  }
+  .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
+  .submit-note { font-size: 12px; color: var(--muted); }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--navy); color: var(--paper);
+    padding: 14px 22px;
+    border-left: 4px solid var(--gold);
+    box-shadow: var(--shadow-lg);
+    font-size: 14px; z-index: 100;
+    transition: transform .3s ease;
+    max-width: 90vw;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { border-left-color: var(--danger); }
+  .toast.ok    { border-left-color: var(--ok); }
+
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(6,18,38,.55);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 200; padding: 20px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: white;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--gold);
+    max-width: 460px; width: 100%;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 600; color: var(--navy);
+    font-size: 14px;
+  }
+  .modal-body { padding: 18px; }
+  .modal-foot {
+    padding: 12px 18px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: flex-end; gap: 10px;
+  }
+  .btn-secondary {
+    background: white; color: var(--navy);
+    border: 1px solid var(--line);
+    padding: 9px 16px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; border-radius: 2px;
+  }
+  .btn-secondary:hover { background: var(--paper-warm); }
+  .btn-primary {
+    background: var(--navy); color: var(--gold-bright);
+    border: 1px solid var(--navy);
+    padding: 9px 16px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; border-radius: 2px;
+  }
+  .btn-primary:hover { background: var(--gold); color: var(--navy-deep); }
+
+  .success { text-align: center; padding: 60px 20px; display: none; }
+  .success.show { display: block; }
+  .success .check {
+    width: 80px; height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--ok); color: white;
+    display: grid; place-items: center;
+    font-size: 40px;
+    box-shadow: 0 0 0 6px rgba(30,111,58,.15);
+  }
+  .success h2 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--navy); margin: 0 0 10px;
+  }
+  .success p { color: var(--muted); margin: 0 0 24px; }
+  .success a {
+    color: var(--navy);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-size: 13px;
+    text-decoration: none;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 2px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 24px 16px 32px;
+    letter-spacing: .04em;
+  }
+  footer .div {
+    width: 40px; height: 2px; background: var(--gold);
+    margin: 0 auto 12px;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="crest">L</div>
+    <div>
+      <h1>MOU Wish List</h1>
+      <div class="sub">Los Angeles Airport Peace Officers Association</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="form-wrap">
+
+    <div class="intro">
+      <p><strong>Your voice. Your contract.</strong> Submit proposals for the upcoming round of negotiations. Submissions are <strong>anonymous by default</strong> &mdash; opt in below if you want to be contacted for follow-up. Each submission can be voted on by the membership in the LAAPOA app.</p>
+    </div>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="num">1</div>
+        <h2>Select Your MOU</h2>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label for="mou">MOU / Bargaining Unit <span class="req">*</span></label>
+          <select id="mou" required>
+            <option value="">&mdash; Choose your MOU &mdash;</option>
+            <option value="MOU 30/39">MOU 30/39 &mdash; Airport Police</option>
+            <option value="MOU 28">MOU 28</option>
+            <option value="MOU 65">MOU 65</option>
+          </select>
+          <div class="hint">Submissions are written to a separate tab per MOU plus a master log.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="num">2</div>
+        <h2>Member Identity</h2>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label for="name-locked">Name</label>
+          <input type="text" id="name-locked" value="Anonymous" disabled>
+        </div>
+
+        <label class="id-toggle" for="id-check">
+          <input type="checkbox" id="id-check">
+          <span><strong>Identify myself for follow-up.</strong> Check this only if you want LAAPOA leadership to be able to contact you about this submission. Your information will not be displayed publicly or in the membership app.</span>
+        </label>
+
+        <div class="id-fields" id="id-fields">
+          <div class="field">
+            <label for="m-name">Full Name <span class="req">*</span></label>
+            <input type="text" id="m-name" autocomplete="name" placeholder="Last, First">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="m-email">Personal Email <span class="req">*</span></label>
+              <input type="email" id="m-email" autocomplete="email" placeholder="you@gmail.com">
+              <div class="hint" id="email-hint">No <strong>@lawa.org</strong>, <strong>@lacity.org</strong>, or <strong>@lapd.online</strong> addresses.</div>
+            </div>
+            <div class="field">
+              <label for="m-phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="m-phone" autocomplete="tel" placeholder="(310) 555-0100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="num">3</div>
+        <h2>Your Wish List</h2>
+      </div>
+      <div class="card-body">
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">
+          Add one or more proposals under any category. Use the toolbar to <b>bold</b>, <i>italicize</i>, or add a link &mdash; or just paste a URL and it'll become a clickable link automatically.
+        </p>
+        <div id="categories"></div>
+      </div>
+    </section>
+
+    <div class="submit-row">
+      <div class="submit-note" id="count-summary">No items added yet.</div>
+      <button type="button" class="btn-submit" id="submit-btn" disabled>Submit Wish List</button>
+    </div>
+  </div>
+
+  <div class="success" id="success-screen">
+    <div class="check">&#10003;</div>
+    <h2>Submission Received</h2>
+    <p>Thank you for your input. Your proposals have been logged for review by the LAAPOA bargaining team.</p>
+    <p><a href="#" id="another-link">Submit another &rarr;</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="div"></div>
+  LAAPOA &middot; A Voice for Airport Peace Officers
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="link-modal">
+  <div class="modal">
+    <div class="modal-head">Insert Link</div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="link-text">Text to display</label>
+        <input type="text" id="link-text" placeholder="Click here">
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label for="link-url">URL</label>
+        <input type="text" id="link-url" placeholder="https://example.com">
+        <div class="hint">Must start with <b>http://</b>, <b>https://</b>, or <b>mailto:</b>.</div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn-secondary" id="link-cancel">Cancel</button>
+      <button type="button" class="btn-primary" id="link-ok">Insert</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // CONFIG
+  // ============================================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9CjcptGARIL3JrYos7JhYjHBzWiPwnx0uu9TUKAdz8u-EAnd5CFFWdm2Xc9HYka74vw/exec';
+
+  const CATEGORIES = [
+    { key: 'wages',      label: 'Wages',              icon: '$' },
+    { key: 'hours',      label: 'Hours',              icon: 'H' },
+    { key: 'leave',      label: 'Leave',              icon: 'L' },
+    { key: 'benefits',   label: 'Benefits',           icon: 'B' },
+    { key: 'conditions', label: 'Working Conditions', icon: 'W' },
+    { key: 'other',      label: 'Other',              icon: '+' },
+  ];
+
+  const BLOCKED_EMAIL_DOMAINS = ['lawa.org', 'lacity.org', 'lapd.online'];
+
+  // ============================================================
+  // SAFE-URL + SANITIZE
+  // ============================================================
+  function isSafeUrl(href) {
+    if (!href) return false;
+    const lower = String(href).trim().toLowerCase();
+    return lower.startsWith('http://') || lower.startsWith('https://') || lower.startsWith('mailto:');
+  }
+  function normalizeUrl(href) {
+    href = String(href || '').trim();
+    if (!href) return '';
+    if (/^https?:\/\//i.test(href) || /^mailto:/i.test(href)) return href;
+    if (/^www\./i.test(href)) return 'https://' + href;
+    return href;
+  }
+
+  function sanitizeRich(html) {
+    const tmpl = document.createElement('template');
+    tmpl.innerHTML = html;
+    walkSanitize(tmpl.content);
+    return tmpl.innerHTML.trim();
+  }
+  function walkSanitize(root) {
+    Array.from(root.childNodes).forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) return;
+      if (child.nodeType !== Node.ELEMENT_NODE) { child.remove(); return; }
+      const tag = child.tagName.toLowerCase();
+
+      if (tag === 'a') {
+        const href = (child.getAttribute('href') || '').trim();
+        if (!isSafeUrl(href)) { unwrap(child); return; }
+        Array.from(child.attributes).forEach(a => child.removeAttribute(a.name));
+        child.setAttribute('href', href);
+        child.setAttribute('target', '_blank');
+        child.setAttribute('rel', 'noopener noreferrer');
+        walkSanitize(child);
+        return;
+      }
+
+      if (['b','strong','i','em','u','br'].includes(tag)) {
+        Array.from(child.attributes).forEach(a => child.removeAttribute(a.name));
+        walkSanitize(child);
+        return;
+      }
+
+      if (tag === 'div' || tag === 'p') {
+        walkSanitize(child);
+        const br = document.createElement('br');
+        child.parentNode.insertBefore(br, child);
+        unwrap(child);
+        return;
+      }
+
+      walkSanitize(child);
+      unwrap(child);
+    });
+  }
+  function unwrap(el) {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+  }
+
+  // ============================================================
+  // AUTOLINK
+  // ============================================================
+  const URL_RE = /\b((?:https?:\/\/|www\.)[^\s<]+[^\s<.,;:!?)\]'"])/gi;
+
+  function autolinkArea(area) {
+    const hadFocus = document.activeElement === area;
+    const offset = hadFocus ? saveCaret(area) : null;
+
+    const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        let p = node.parentNode;
+        while (p && p !== area) {
+          if (p.tagName === 'A') return NodeFilter.FILTER_REJECT;
+          p = p.parentNode;
+        }
+        URL_RE.lastIndex = 0;
+        return URL_RE.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+
+    const targets = [];
+    let n;
+    while ((n = walker.nextNode())) targets.push(n);
+
+    targets.forEach(textNode => {
+      const text = textNode.nodeValue;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      URL_RE.lastIndex = 0;
+      let m;
+      while ((m = URL_RE.exec(text)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const a = document.createElement('a');
+        const url = normalizeUrl(m[0]);
+        a.href = isSafeUrl(url) ? url : '#';
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = m[0];
+        frag.appendChild(a);
+        last = m.index + m[0].length;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+
+    if (hadFocus && offset != null) restoreCaret(area, offset);
+  }
+
+  function saveCaret(area) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount) return null;
+    const range = sel.getRangeAt(0);
+    const pre = range.cloneRange();
+    pre.selectNodeContents(area);
+    pre.setEnd(range.endContainer, range.endOffset);
+    return pre.toString().length;
+  }
+  function restoreCaret(area, offset) {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    let chars = offset, node;
+    const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT);
+    while ((node = walker.nextNode())) {
+      const len = node.nodeValue.length;
+      if (chars <= len) {
+        range.setStart(node, chars);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return;
+      }
+      chars -= len;
+    }
+    range.selectNodeContents(area);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  // ============================================================
+  // CATEGORY UI
+  // ============================================================
+  const catWrap = document.getElementById('categories');
+  CATEGORIES.forEach(cat => {
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    block.dataset.cat = cat.key;
+    block.innerHTML = `
+      <div class="cat-head" data-toggle>
+        <div class="cat-title">
+          <span class="cat-icon">${cat.icon}</span>
+          ${cat.label}
+        </div>
+        <div class="cat-count" data-count>0 items</div>
+      </div>
+      <div class="cat-body" data-body>
+        <div data-rows></div>
+        <button type="button" class="btn-add" data-add>+ Add a ${cat.label.toLowerCase()} item</button>
+      </div>
+    `;
+    catWrap.appendChild(block);
+    block.querySelector('[data-toggle]').addEventListener('click', () => {
+      block.querySelector('[data-body]').classList.toggle('show');
+    });
+    block.querySelector('[data-add]').addEventListener('click', () => addRow(block));
+  });
+
+  function addRow(block) {
+    const rows = block.querySelector('[data-rows]');
+    const row = document.createElement('div');
+    row.className = 'wish-row';
+    row.innerHTML = `
+      <div class="rich-wrap">
+        <div class="rich-toolbar" data-toolbar>
+          <button type="button" class="rich-btn" data-cmd="bold"   title="Bold (Ctrl+B)"><b>B</b></button>
+          <button type="button" class="rich-btn" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+          <span class="rich-sep"></span>
+          <button type="button" class="rich-btn link" data-cmd="link" title="Insert link (Ctrl+K)">🔗</button>
+          <span class="rich-hint">Paste a URL to auto-link</span>
+        </div>
+        <div class="rich-area"
+             contenteditable="true"
+             data-rich
+             data-placeholder="Describe your proposal..."></div>
+      </div>
+      <button type="button" class="btn-remove" title="Remove" data-remove>&times;</button>
+    `;
+    rows.appendChild(row);
+
+    const area = row.querySelector('[data-rich]');
+    const toolbar = row.querySelector('[data-toolbar]');
+
+    toolbar.addEventListener('mousedown', e => e.preventDefault());
+    toolbar.addEventListener('click', e => {
+      const btn = e.target.closest('.rich-btn');
+      if (!btn) return;
+      const cmd = btn.dataset.cmd;
+      area.focus();
+      if (cmd === 'bold')   document.execCommand('bold');
+      if (cmd === 'italic') document.execCommand('italic');
+      if (cmd === 'link')   openLinkModal(area);
+      updateToolbarState(area, toolbar);
+      updateCounts();
+    });
+
+    area.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && !e.shiftKey && !e.altKey) {
+        const k = e.key.toLowerCase();
+        if (k === 'b') { e.preventDefault(); document.execCommand('bold');   updateToolbarState(area, toolbar); }
+        if (k === 'i') { e.preventDefault(); document.execCommand('italic'); updateToolbarState(area, toolbar); }
+        if (k === 'k') { e.preventDefault(); openLinkModal(area); }
+      }
+    });
+
+    area.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+      setTimeout(() => { autolinkArea(area); updateCounts(); }, 0);
+    });
+
+    area.addEventListener('input', () => {
+      autolinkArea(area);
+      updateCounts();
+      updateToolbarState(area, toolbar);
+    });
+    area.addEventListener('keyup',   () => updateToolbarState(area, toolbar));
+    area.addEventListener('mouseup', () => updateToolbarState(area, toolbar));
+
+    row.querySelector('[data-remove]').addEventListener('click', () => {
+      row.remove();
+      updateCounts();
+    });
+
+    block.querySelector('[data-body]').classList.add('show');
+    area.focus();
+    updateCounts();
+  }
+
+  function updateToolbarState(area, toolbar) {
+    if (document.activeElement !== area) return;
+    toolbar.querySelector('[data-cmd="bold"]').classList.toggle('active',   document.queryCommandState('bold'));
+    toolbar.querySelector('[data-cmd="italic"]').classList.toggle('active', document.queryCommandState('italic'));
+  }
+
+  // ============================================================
+  // LINK MODAL
+  // ============================================================
+  let linkTargetArea = null;
+  let savedRange = null;
+
+  function openLinkModal(area) {
+    linkTargetArea = area;
+    const sel = window.getSelection();
+    savedRange = sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+    const selectedText = sel.toString();
+    document.getElementById('link-text').value = selectedText || '';
+    document.getElementById('link-url').value  = '';
+    document.getElementById('link-modal').classList.add('show');
+    setTimeout(() => {
+      (selectedText ? document.getElementById('link-url') : document.getElementById('link-text')).focus();
+    }, 30);
+  }
+  function closeLinkModal() {
+    document.getElementById('link-modal').classList.remove('show');
+    linkTargetArea = null;
+    savedRange = null;
+  }
+
+  document.getElementById('link-cancel').addEventListener('click', closeLinkModal);
+  document.getElementById('link-modal').addEventListener('click', e => {
+    if (e.target.id === 'link-modal') closeLinkModal();
+  });
+  document.getElementById('link-ok').addEventListener('click', insertLink);
+  ['link-text','link-url'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter')  { e.preventDefault(); insertLink(); }
+      if (e.key === 'Escape') { e.preventDefault(); closeLinkModal(); }
+    });
+  });
+
+  function insertLink() {
+    if (!linkTargetArea) return;
+    const text = document.getElementById('link-text').value.trim();
+    const url = normalizeUrl(document.getElementById('link-url').value);
+    if (!isSafeUrl(url)) {
+      toast('URL must start with http://, https://, or mailto:', 'error');
+      return;
+    }
+    const display = text || url;
+
+    linkTargetArea.focus();
+    if (savedRange) {
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedRange);
+    }
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = display;
+
+    const sel = window.getSelection();
+    if (sel.rangeCount) {
+      const range = sel.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(a);
+      const after = document.createRange();
+      after.setStartAfter(a);
+      after.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(after);
+    } else {
+      linkTargetArea.appendChild(a);
+    }
+    closeLinkModal();
+    updateCounts();
+  }
+
+  // ============================================================
+  // ID TOGGLE
+  // ============================================================
+  const idCheck  = document.getElementById('id-check');
+  const idFields = document.getElementById('id-fields');
+  const nameLock = document.getElementById('name-locked');
+
+  idCheck.addEventListener('change', () => {
+    if (idCheck.checked) {
+      idFields.classList.add('show');
+      nameLock.value = 'Identifying myself ↓';
+      nameLock.style.fontStyle = 'italic';
+    } else {
+      idFields.classList.remove('show');
+      nameLock.value = 'Anonymous';
+      nameLock.style.fontStyle = 'normal';
+      document.getElementById('m-name').value  = '';
+      document.getElementById('m-email').value = '';
+      document.getElementById('m-phone').value = '';
+    }
+    updateCounts();
+  });
+
+  document.getElementById('m-email').addEventListener('input', e => {
+    const hint = document.getElementById('email-hint');
+    const v = e.target.value.toLowerCase().trim();
+    const domain = v.split('@')[1] || '';
+    if (domain && BLOCKED_EMAIL_DOMAINS.includes(domain)) {
+      hint.classList.add('bad');
+      hint.innerHTML = `<strong>${domain}</strong> is a work email. Please use a personal address.`;
+    } else {
+      hint.classList.remove('bad');
+      hint.innerHTML = 'No <strong>@lawa.org</strong>, <strong>@lacity.org</strong>, or <strong>@lapd.online</strong> addresses.';
+    }
+    updateCounts();
+  });
+
+  document.getElementById('mou').addEventListener('change', updateCounts);
+
+  // ============================================================
+  // COLLECT / VALIDATE
+  // ============================================================
+  function collectItems() {
+    const items = [];
+    document.querySelectorAll('.cat-block').forEach(block => {
+      const cat = block.dataset.cat;
+      const catLabel = CATEGORIES.find(c => c.key === cat).label;
+      let n = 0;
+      block.querySelectorAll('.wish-row').forEach(row => {
+        const area = row.querySelector('[data-rich]');
+        const sanitized = sanitizeRich(area.innerHTML);
+        const plain = area.innerText.trim();
+        if (plain) {
+          items.push({
+            category: cat,
+            categoryLabel: catLabel,
+            text: plain,
+            html: sanitized,
+          });
+          n++;
+        }
+      });
+      const countEl = block.querySelector('[data-count]');
+      countEl.textContent = `${n} item${n === 1 ? '' : 's'}`;
+      countEl.classList.toggle('has', n > 0);
+    });
+    return items;
+  }
+
+  function isIdValid() {
+    if (!idCheck.checked) return true;
+    const name  = document.getElementById('m-name').value.trim();
+    const email = document.getElementById('m-email').value.trim().toLowerCase();
+    const phone = document.getElementById('m-phone').value.trim();
+    if (!name || !email || !phone) return false;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return false;
+    if (BLOCKED_EMAIL_DOMAINS.includes(email.split('@')[1] || '')) return false;
+    return true;
+  }
+
+  function updateCounts() {
+    const items = collectItems();
+    const mou = document.getElementById('mou').value;
+    const summary = document.getElementById('count-summary');
+    const btn = document.getElementById('submit-btn');
+
+    summary.textContent = items.length === 0
+      ? 'No items added yet.'
+      : `${items.length} item${items.length === 1 ? '' : 's'} ready to submit${mou ? ` for ${mou}` : ''}.`;
+
+    btn.disabled = !(mou && items.length > 0 && isIdValid());
+  }
+
+  // ============================================================
+  // SUBMIT
+  // ============================================================
+  function toast(msg, kind) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + (kind || '');
+    setTimeout(() => t.classList.remove('show'), 4200);
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('submit-btn');
+    const items = collectItems();
+    const mou = document.getElementById('mou').value;
+
+    if (!mou)             { toast('Please select your MOU.', 'error'); return; }
+    if (items.length === 0) { toast('Add at least one item.', 'error'); return; }
+    if (!isIdValid())     { toast('Identity info is incomplete or invalid.', 'error'); return; }
+
+    const payload = {
+      action: 'submit',
+      mou,
+      identified: idCheck.checked,
+      name:  idCheck.checked ? document.getElementById('m-name').value.trim()  : 'Anonymous',
+      email: idCheck.checked ? document.getElementById('m-email').value.trim() : '',
+      phone: idCheck.checked ? document.getElementById('m-phone').value.trim() : '',
+      items,
+      submittedAt: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        redirect: 'follow',
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) throw new Error(data.error || ('HTTP ' + res.status));
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('success-screen').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error(err);
+      toast('Could not submit: ' + err.message, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Submit Wish List';
+    }
+  });
+
+  document.getElementById('another-link').addEventListener('click', e => {
+    e.preventDefault();
+    location.reload();
+  });
+
+  addRow(document.querySelector('.cat-block'));
+</script>
+</body>
+</html>
