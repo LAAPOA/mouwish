@@ -222,7 +222,15 @@
     background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%);
     transform: translateY(-1px);
   }
-  .pill .count { color: var(--muted); margin-left: 6px; font-weight: 500; text-shadow: none; }
+  .pill { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.1; }
+  .pill .count {
+    color: var(--muted);
+    margin: 0;
+    font-weight: 500;
+    text-shadow: none;
+    font-size: 10px;
+    letter-spacing: .04em;
+  }
   .pill.active .count { color: rgba(227,191,99,.7); }
   .spacer { flex: 1; }
   .sort-select {
@@ -356,9 +364,9 @@
   body.inapp #mouwishCountdown > div:first-child { display: none !important; }  /* hide label + hourglass */
   body.inapp #mouwishClosed { display: none !important; }  /* hide closed caption */
   body.inapp #flipdown-wrap { height: auto; overflow: visible; }
-  body.inapp .flipdown { transform: scale(1.1); transform-origin: top center; }
+body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin: top center; }
 
-  /* Custom theme — LAAPOA navy + gold, only when in app */
+  /* In-app theme: navy cards, plain white digits */
   body.inapp .flipdown__theme-light .rotor-group-heading::before {
     color: var(--navy);
     font-weight: 600;
@@ -369,10 +377,14 @@
   body.inapp .flipdown__theme-light .rotor-top,
   body.inapp .flipdown__theme-light .rotor-bottom {
     background-color: var(--navy);
-    color: var(--gold-bright);
+    color: #ffffff;
+    text-shadow: none;
   }
   body.inapp .flipdown__theme-light .rotor::before {
-    background-color: rgba(255,255,255,.06);
+    background-color: rgba(255,255,255,.04);
+  }
+  body.inapp .flipdown__theme-light .rotor::after {
+    background-color: rgba(0,0,0,.3);
   }
   body.inapp .flipdown__theme-light .rotor::after {
     background-color: rgba(0,0,0,.4);
@@ -420,16 +432,22 @@
   </div>
 
   <div class="toolbar" id="toolbar">
-<button class="pill active" data-mou="all">All <span class="count" id="count-all">0</span></button>
-    <button class="pill" data-mou="MOU 30/39">LAX <span class="count" id="count-MOU 30/39">0</span></button>
-    <button class="pill" data-mou="MOU 28">28 <span class="count" id="count-MOU 28">0</span></button>
-    <button class="pill" data-mou="MOU 65">65 <span class="count" id="count-MOU 65">0</span></button>
+<button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
+    <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
+    <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
+    <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
     <div class="spacer"></div>
-    <select class="sort-select" id="sort">
-      <option value="net">Sort: Most Upvoted</option>
-      <option value="newest">Sort: Newest</option>
-      <option value="category">Sort: Category</option>
-    </select>
+    <div class="menu-wrap" style="position:relative">
+      <button class="menu-btn" id="menuBtn" aria-label="Menu" style="background:linear-gradient(180deg,#fdfaf0 0%,#ece4cc 100%);border:1px solid #b8a878;border-radius:999px;padding:6px 10px;cursor:pointer;font-size:18px;color:var(--navy);font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(124,99,42,.18),0 2px 3px rgba(11,31,58,.25);line-height:1">⋮</button>
+      <div id="menuDropdown" style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--line);border-radius:8px;z-index:30;min-width:220px;box-shadow:0 6px 20px rgba(11,31,58,.18);padding:6px">
+        <div style="padding:6px 4px 4px 4px"><input type="text" id="searchBox" placeholder="Search wishes…" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;outline:none;box-sizing:border-box"></div>
+        <div style="border-top:1px solid var(--line);margin:4px 0"></div>
+        <div style="padding:4px 8px;font-size:10px;color:var(--muted);font-family:'Oswald',sans-serif;letter-spacing:.12em;text-transform:uppercase">Sort by</div>
+        <button class="menu-item" data-sort="net" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Most Upvoted</button>
+        <button class="menu-item" data-sort="newest" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Newest</button>
+        <button class="menu-item" data-sort="category" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Category</button>
+      </div>
+    </div>
   </div>
 
   <div id="grid" class="grid">
@@ -500,6 +518,13 @@
 
     let items = filter === 'all' ? allItems.slice() : allItems.filter(i => i.mou === filter);
 
+    // Apply search filter
+    if (searchQuery) {
+      items = items.filter(i => {
+        const haystack = ((i.title || '') + ' ' + (i.detail || '') + ' ' + (i.category || '') + ' ' + (i.mou || '')).toLowerCase();
+        return haystack.includes(searchQuery);
+      });
+    }
     items.sort((a, b) => {
       if (sortMode === 'net')      return (b.netScore || 0) - (a.netScore || 0);
       if (sortMode === 'newest')   return new Date(b.timestamp) - new Date(a.timestamp);
@@ -614,11 +639,34 @@
     filter = btn.dataset.mou;
     render();
   });
-  document.getElementById('sort').addEventListener('change', e => {
-    sortMode = e.target.value;
+// 3-dot menu + search wiring
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDropdown = document.getElementById('menuDropdown');
+  const searchBox = document.getElementById('searchBox');
+  let searchQuery = '';
+
+  menuBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    menuDropdown.style.display = menuDropdown.style.display === 'none' ? 'block' : 'none';
+    if (menuDropdown.style.display === 'block') searchBox.focus();
+  });
+  document.addEventListener('click', () => { menuDropdown.style.display = 'none'; });
+  menuDropdown.addEventListener('click', e => e.stopPropagation());
+
+  searchBox.addEventListener('input', e => {
+    searchQuery = e.target.value.trim().toLowerCase();
     render();
   });
 
+  document.querySelectorAll('.menu-item').forEach(btn => {
+    btn.addEventListener('mouseenter', () => { btn.style.background = 'rgba(11,31,58,.06)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.background = 'none'; });
+    btn.addEventListener('click', () => {
+      sortMode = btn.getAttribute('data-sort');
+      menuDropdown.style.display = 'none';
+      render();
+    });
+  });
   // ============================================================
   // ADVISEMENT: hide if viewed inside the app, otherwise show
   // ============================================================
