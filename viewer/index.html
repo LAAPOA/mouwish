@@ -327,6 +327,7 @@
 </header>
 
 <main>
+<div id="mouwishCountdown" style="display:none;background:linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:4px;padding:14px 22px;margin-bottom:18px;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--navy);text-align:center"></div>
   <div class="advisement" id="advisement">
     <button class="advisement-close" id="advisement-close" aria-label="Dismiss" title="Dismiss">&times;</button>
     <div class="advisement-head">
@@ -578,6 +579,39 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') load();
   });
+</script>
+
+<script>
+(async function(){
+  try {
+    const r = await fetch('https://laapoa-api.mike-a78.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'getMouwishDeadline' })
+    });
+    const d = await r.json();
+    if (!d || !d.deadline) return;
+    const deadline = new Date(d.deadline).getTime();
+    if (isNaN(deadline)) return;
+    const el = document.getElementById('mouwishCountdown');
+    el.style.display = 'block';
+    function tick() {
+      const left = deadline - Date.now();
+      if (left <= 0) { el.textContent = 'Submissions closed'; el.style.color = '#C0392B'; el.style.background = 'rgba(192,57,43,.12)'; return; }
+      const d = Math.floor(left / 86400000);
+      const h = Math.floor((left % 86400000) / 3600000);
+      const m = Math.floor((left % 3600000) / 60000);
+      const s = Math.floor((left % 60000) / 1000);
+      let txt = '\u23f3 Submissions close in ';
+      if (d > 0) txt += d + 'd ' + h + 'h ' + m + 'm';
+      else if (h > 0) txt += h + 'h ' + m + 'm ' + s + 's';
+      else txt += m + 'm ' + s + 's';
+      el.textContent = txt;
+      setTimeout(tick, 1000);
+    }
+    tick();
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
