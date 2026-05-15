@@ -290,10 +290,31 @@
     -webkit-background-clip: border-box !important;
     box-shadow: none !important;
   }
-  body.inapp .flipdown .rotor::before,
+body.inapp .flipdown .rotor::before,
   body.inapp .flipdown .rotor::after {
     background: transparent !important;
     background-color: transparent !important;
+  }
+
+  /* Defeat the flip animation's gradient on rotor halves */
+  body.inapp .flipdown .rotor-top,
+  body.inapp .flipdown .rotor-bottom,
+  body.inapp .flipdown .rotor-leaf-front,
+  body.inapp .flipdown .rotor-leaf-rear,
+  body.inapp .flipdown .rotor.flipped .rotor-leaf,
+  body.inapp .flipdown .rotor:not(.flipped) .rotor-leaf {
+    background: var(--navy) !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border-color: var(--navy-deep) !important;
+  }
+
+  /* The divider line between top/bottom halves */
+  body.inapp .flipdown .rotor::before {
+    background: var(--navy-deep) !important;
+    background-color: var(--navy-deep) !important;
+    opacity: 1 !important;
   }
   body.inapp .flipdown .rotor-group-heading::before {
     background: transparent !important;
