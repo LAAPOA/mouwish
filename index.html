@@ -591,17 +591,26 @@
     margin: 0 auto 12px;
   }
   /* Custom flip clock */
-  .fc { display: flex; justify-content: center; gap: 12px; margin: 0 auto; perspective: 600px; }
-  .fc-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.fc { display: flex; justify-content: center; align-items: flex-start; gap: 10px; margin: 0 auto; perspective: 600px; }
+  .fc-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .fc-sep {
+    font-family: 'Oswald', 'Inter', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy, #0b1f3a);
+    line-height: 64px;
+    padding: 0 2px;
+    opacity: .5;
+  }
   .fc-card {
-    position: relative; width: 70px; height: 90px;
+    position: relative; width: 48px; height: 64px;
     background: var(--navy, #0b1f3a);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 6px;
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-weight: 700; font-size: 56px; line-height: 90px; text-align: center;
+    font-weight: 700; font-size: 38px; line-height: 64px; text-align: center;
     overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,.22);
   }
   .fc-card::after {
     content: ''; position: absolute; left: 0; right: 0; top: 50%;
@@ -623,13 +632,15 @@
     font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
     color: #d8d2c0; font-weight: 600;
   }
-  @media (max-width: 540px) {
-    .fc-card { width: 54px; height: 70px; font-size: 42px; line-height: 70px; }
-    .fc { gap: 8px; }
+@media (max-width: 540px) {
+    .fc-card { width: 40px; height: 54px; font-size: 30px; line-height: 54px; }
+    .fc { gap: 6px; }
+    .fc-sep { font-size: 30px; line-height: 54px; }
   }
   @media (max-width: 380px) {
-    .fc-card { width: 46px; height: 62px; font-size: 36px; line-height: 62px; }
-    .fc { gap: 6px; }
+    .fc-card { width: 34px; height: 46px; font-size: 26px; line-height: 46px; }
+    .fc { gap: 4px; }
+    .fc-sep { font-size: 26px; line-height: 46px; }
   }
 </style>
 </head>
@@ -818,14 +829,14 @@ function showClosedScreen() {
   const FC_LABELS = ['Days', 'Hours', 'Min', 'Sec'];
   let fcCards = [];
 
-  function fcBuild(container) {
+function fcBuild(container) {
     container.innerHTML = '';
     fcCards = [];
     for (let g = 0; g < 4; g++) {
       const group = document.createElement('div');
       group.className = 'fc-group';
       const wrap = document.createElement('div');
-      wrap.style.cssText = 'display:flex;gap:4px';
+      wrap.style.cssText = 'display:flex;gap:3px';
       for (let d = 0; d < 2; d++) {
         const card = document.createElement('div');
         card.className = 'fc-card';
@@ -841,6 +852,13 @@ function showClosedScreen() {
       lbl.textContent = FC_LABELS[g];
       group.appendChild(lbl);
       container.appendChild(group);
+      // Add separator between groups (not after the last one)
+      if (g < 3) {
+        const sep = document.createElement('div');
+        sep.className = 'fc-sep';
+        sep.textContent = ':';
+        container.appendChild(sep);
+      }
     }
   }
 
