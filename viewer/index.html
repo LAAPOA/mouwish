@@ -368,7 +368,9 @@
   <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px">
     <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
   </div>
-  <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto"></div>
+  <div id="flipdown-wrap" style="margin:0 auto;overflow:hidden">
+    <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto"></div>
+  </div>
   <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
 </div>
   <div class="advisement" id="advisement">
@@ -635,7 +637,17 @@
     const banner = document.getElementById('mouwishCountdown');
     const fdEl = document.getElementById('flipdown-viewer');
     const closedEl = document.getElementById('mouwishClosed');
-    banner.style.display = 'block';
+banner.style.display = 'block';
+    // Shrink the flip clock when embedded inside memberinfo iframe
+    const isInApp = new URLSearchParams(location.search).get('inapp') === '1';
+    if (isInApp) {
+      const wrap = document.getElementById('flipdown-wrap');
+      fdEl.style.transform = 'scale(0.65)';
+      fdEl.style.transformOrigin = 'top center';
+      wrap.style.height = '95px';
+      banner.style.padding = '14px 22px 0 22px';
+      banner.style.marginBottom = '12px';
+    }
     if (deadline <= Date.now()) {
       fdEl.style.display = 'none';
       closedEl.style.display = 'block';
