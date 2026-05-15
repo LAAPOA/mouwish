@@ -756,7 +756,22 @@
 
   // Submission deadline: Wednesday May 20, 2026 at 12:00 PM Pacific.
   // Pacific = UTC-7 in May (Daylight Time), so 12:00 PT = 19:00 UTC.
-  const DEADLINE = new Date('2026-05-20T19:00:00Z');
+let DEADLINE = null;
+const LAAPOA_API = 'https://laapoa-api.mike-a78.workers.dev';
+ 
+async function loadDeadline() {
+  try {
+    const r = await fetch(LAAPOA_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'getMouwishDeadline' })
+    });
+    const d = await r.json();
+    if (d && d.deadline) DEADLINE = new Date(d.deadline);
+  } catch (e) {}
+  initCountdown();
+}
+loadDeadline();
 
   // ============================================================
   // COUNTDOWN + WINDOW GATE
@@ -804,9 +819,25 @@
     }
   }
 
-  // Kick off immediately, then every second
-  if (updateCountdown()) {
-    window.__cdInterval = setInterval(updateCountdown, 1000);
+// Wrap in initCountdown so loadDeadline can call this after fetch
+  function initCountdown() {
+    if (!DEADLINE) {
+      const cd = document.getElementById('countdown');
+      if (cd) cd.style.display = 'none';
+      return;
+    }
+    const dlEl = document.getElementById('countdown-deadline');
+    if (dlEl) {
+      try {
+        dlEl.textContent = DEADLINE.toLocaleString(undefined, {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+          hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+        });
+      } catch(e) {}
+    }
+    if (updateCountdown()) {
+      window.__cdInterval = setInterval(updateCountdown, 1000);
+    }
   }
 
   const CATEGORIES = [
@@ -1254,7 +1285,7 @@
     const mou = document.getElementById('mou').value;
 
     // Hard gate: deadline check
-    if (new Date().getTime() >= DEADLINE.getTime()) {
+    if (DEADLINE && new Date().getTime() >= DEADLINE.getTime()) {
       showClosedScreen();
       return;
     }
