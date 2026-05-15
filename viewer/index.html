@@ -162,12 +162,12 @@
   }
   .advisement-close:hover { color: var(--navy); }
 
-  .toolbar {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+.toolbar {
+    display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
     margin-bottom: 18px;
     background: white;
     border: 1px solid var(--line);
-    padding: 10px 12px;
+    padding: 8px 10px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
 .pill {
@@ -232,7 +232,8 @@
     letter-spacing: .04em;
   }
   .pill.active .count { color: rgba(227,191,99,.7); }
-  .spacer { flex: 1; }
+  .spacer { flex: 1; min-width: 0; }
+  @media (max-width: 480px) { .spacer { display: none; } }
   .sort-select {
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
@@ -361,41 +362,40 @@
     padding: 0 !important;
     margin: 0 0 14px 0 !important;
   }
-  body.inapp #mouwishCountdown > div:first-child { display: none !important; }  /* hide label + hourglass */
-  body.inapp #mouwishClosed { display: none !important; }  /* hide closed caption */
+  body.inapp #mouwishCountdown > div:first-child { display: none !important; }
+  body.inapp #mouwishClosed { display: none !important; }
   body.inapp #flipdown-wrap { height: auto; overflow: visible; }
-body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin: top center; }
+  body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin: top center; }
 
-  /* In-app theme: navy cards, plain white digits */
-  body.inapp .flipdown__theme-light .rotor-group-heading::before {
-    color: var(--navy);
-    font-weight: 600;
-  }
-body.inapp .flipdown__theme-light .rotor,
-  body.inapp .flipdown__theme-light .rotor-leaf,
-  body.inapp .flipdown__theme-light .rotor-leaf-front,
-  body.inapp .flipdown__theme-light .rotor-leaf-rear,
-  body.inapp .flipdown__theme-light .rotor-top,
-  body.inapp .flipdown__theme-light .rotor-bottom {
+  /* In-app flip clock: solid navy cards, plain white digits, no gradients */
+  body.inapp .flipdown,
+  body.inapp .flipdown *,
+  body.inapp .flipdown *::before,
+  body.inapp .flipdown *::after {
     background: var(--navy) !important;
     background-image: none !important;
     background-color: var(--navy) !important;
     color: #ffffff !important;
     text-shadow: none !important;
     -webkit-text-fill-color: #ffffff !important;
-    -webkit-background-clip: border-box !important;
     background-clip: border-box !important;
+    -webkit-background-clip: border-box !important;
+    box-shadow: none !important;
   }
-  body.inapp .flipdown__theme-light .rotor::before {
-    background-color: rgba(255,255,255,.04);
+  body.inapp .flipdown .rotor::before,
+  body.inapp .flipdown .rotor::after {
+    background: transparent !important;
+    background-color: transparent !important;
   }
-  body.inapp .flipdown__theme-light .rotor::after {
-    background-color: rgba(0,0,0,.3);
+  body.inapp .flipdown .rotor-group-heading::before {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--navy) !important;
+    -webkit-text-fill-color: var(--navy) !important;
+    font-weight: 600 !important;
   }
-  body.inapp .flipdown__theme-light .rotor::after {
-    background-color: rgba(0,0,0,.4);
-  }
-/* Stack count below pill label */
+
+  /* Stack count below pill label */
   .pill {
     display: inline-flex !important;
     flex-direction: column !important;
@@ -411,6 +411,15 @@ body.inapp .flipdown__theme-light .rotor,
     letter-spacing: .04em;
   }
   .pill.active .count { color: rgba(227,191,99,.7); }
+
+  /* Mobile: tighter toolbar so all 4 pills + menu fit on one row */
+  @media (max-width: 480px) {
+    .pill { padding: 5px 8px !important; font-size: 11px !important; gap: 1px !important; flex-shrink: 1; min-width: 0; }
+    .pill .count { font-size: 9px !important; }
+    .toolbar { padding: 6px 8px; gap: 4px; }
+    .menu-btn { padding: 5px 8px !important; font-size: 16px !important; }
+    .spacer { display: none; }
+  }
 </style>
 </head>
 <body>
