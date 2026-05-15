@@ -595,19 +595,19 @@
   .fc-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .fc-sep {
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-size: 22px;
+    font-size: 17px;
     font-weight: 700;
     color: rgba(245,242,234,.5);
-    line-height: 38px;
+    line-height: 30px;
     padding: 0 1px;
   }
 .fc-card {
-    position: relative; width: 28px; height: 38px;
+    position: relative; width: 22px; height: 30px;
     background: #b91c1c;
     color: #fff;
-    border-radius: 4px;
+    border-radius: 3px;
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-weight: 700; font-size: 22px; line-height: 38px; text-align: center;
+    font-weight: 700; font-size: 17px; line-height: 30px; text-align: center;
     overflow: hidden;
     box-shadow: 0 3px 10px rgba(0,0,0,.2);
   }
@@ -626,10 +626,10 @@
   .fc-card.flip .fc-digit-next    { animation: fc-flip-in  .55s cubic-bezier(.4,.05,.3,.95) forwards; transform-origin: center top; }
   @keyframes fc-flip-out { 0% { transform: rotateX(0); } 100% { transform: rotateX(-180deg); } }
   @keyframes fc-flip-in  { 0% { transform: rotateX(180deg); } 100% { transform: rotateX(0); } }
-  .fc-label {
+.fc-label {
     font-family: 'Oswald', 'Inter', sans-serif;
     font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-    color: #d8d2c0; font-weight: 600;
+    color: #b91c1c; font-weight: 600;
   }
 @media (max-width: 540px) {
     .fc-card { width: 40px; height: 54px; font-size: 30px; line-height: 54px; }
