@@ -356,7 +356,7 @@
   body.inapp #mouwishCountdown > div:first-child { display: none !important; }  /* hide label + hourglass */
   body.inapp #mouwishClosed { display: none !important; }  /* hide closed caption */
   body.inapp #flipdown-wrap { height: auto; overflow: visible; }
-  body.inapp .flipdown { transform: scale(0.85); transform-origin: top center; }
+  body.inapp .flipdown { transform: scale(1.1); transform-origin: top center; }
 
   /* Custom theme — LAAPOA navy + gold, only when in app */
   body.inapp .flipdown__theme-light .rotor-group-heading::before {
@@ -399,8 +399,8 @@
   <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px">
     <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
   </div>
-  <div id="flipdown-wrap" style="margin:0 auto;overflow:hidden">
-    <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto"></div>
+<div id="flipdown-wrap" style="margin:0 auto;overflow:visible">
+    <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto;transform:scale(0.9);transform-origin:top center"></div>
   </div>
   <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
 </div>
