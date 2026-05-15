@@ -595,21 +595,21 @@
   .fc-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .fc-sep {
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 700;
     color: rgba(11,31,58,.4);
-    line-height: 35px;
-    padding: 0 1px;
+    line-height: 49px;
+    padding: 0 2px;
   }
 .fc-card {
-    position: relative; width: 27px; height: 35px;
+    position: relative; width: 38px; height: 49px;
     background: #b91c1c;
     color: #fff;
-    border-radius: 3px;
+    border-radius: 4px;
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-weight: 700; font-size: 20px; line-height: 35px; text-align: center;
+    font-weight: 700; font-size: 28px; line-height: 49px; text-align: center;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    box-shadow: 0 3px 10px rgba(0,0,0,.22);
   }
   .fc-card::after {
     content: ''; position: absolute; left: 0; right: 0; top: 50%;
@@ -633,9 +633,16 @@
   }
 /* Phone landscape / small tablet (481px–900px) */
   @media (min-width: 481px) and (max-width: 900px) {
-    .fc-card { width: 24px; height: 32px; font-size: 18px; line-height: 32px; }
-    .fc-sep  { font-size: 18px; line-height: 32px; }
+    .fc-card { width: 34px; height: 45px; font-size: 25px; line-height: 45px; }
+    .fc-sep  { font-size: 25px; line-height: 45px; }
+    .fc      { gap: 6px; }
+  }
+  /* Phone portrait (≤ 480px) */
+  @media (max-width: 480px) {
+    .fc-card { width: 25px; height: 34px; font-size: 20px; line-height: 34px; border-radius: 3px; }
+    .fc-sep  { font-size: 20px; line-height: 34px; padding: 0; }
     .fc      { gap: 5px; }
+    .fc-label { font-size: 11px; }
   }
   /* Phone portrait (≤ 480px) */
   @media (max-width: 480px) {
