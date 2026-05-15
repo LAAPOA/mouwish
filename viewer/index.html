@@ -74,7 +74,6 @@
 
   main { max-width: 1100px; margin: 0 auto; padding: 22px 20px 80px; }
 
-  /* Public advisement banner (hidden when viewed inside the app) */
   .advisement {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
     border: 1px solid var(--gold);
@@ -85,84 +84,46 @@
     box-shadow: 0 6px 18px -10px rgba(11,31,58,.25);
     position: relative;
   }
-  .advisement-head {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 10px;
-  }
+  .advisement-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .advisement-badge {
     background: var(--navy);
     color: var(--gold-bright);
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
     letter-spacing: .12em;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 999px;
+    font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
   }
   .advisement h2 {
     font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .08em;
+    text-transform: uppercase; letter-spacing: .08em;
     color: var(--navy);
-    margin: 0;
-    font-size: 14px;
-    font-weight: 700;
+    margin: 0; font-size: 14px; font-weight: 700;
   }
-  .advisement p {
-    margin: 0 0 10px;
-    color: #2e333c;
-    font-size: 14px;
-    line-height: 1.55;
-  }
+  .advisement p { margin: 0 0 10px; color: #2e333c; font-size: 14px; line-height: 1.55; }
   .advisement p:last-child { margin-bottom: 0; }
   .advisement strong { color: var(--navy); }
-  .advisement-actions {
-    margin-top: 14px;
-    display: flex; gap: 10px; flex-wrap: wrap;
-  }
+  .advisement-actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
   .advisement-btn {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--navy);
-    color: var(--gold-bright);
+    background: var(--navy); color: var(--gold-bright);
     border: 2px solid var(--gold);
     padding: 8px 16px;
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: all .15s;
+    font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .08em;
+    font-size: 11px; font-weight: 700;
+    text-decoration: none; border-radius: 2px; transition: all .15s;
   }
-  .advisement-btn:hover {
-    background: var(--gold);
-    color: var(--navy-deep);
-  }
-  .advisement-btn.alt {
-    background: white;
-    color: var(--navy);
-    border-color: var(--line);
-  }
-  .advisement-btn.alt:hover {
-    background: #fff8e8;
-    border-color: var(--gold);
-  }
+  .advisement-btn:hover { background: var(--gold); color: var(--navy-deep); }
+  .advisement-btn.alt { background: white; color: var(--navy); border-color: var(--line); }
+  .advisement-btn.alt:hover { background: #fff8e8; border-color: var(--gold); }
   .advisement-close {
-    position: absolute;
-    top: 10px; right: 12px;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 4px 8px;
-    line-height: 1;
+    position: absolute; top: 10px; right: 12px;
+    background: transparent; border: none; color: var(--muted);
+    font-size: 18px; cursor: pointer; padding: 4px 8px; line-height: 1;
   }
   .advisement-close:hover { color: var(--navy); }
 
-.toolbar {
+  .toolbar {
     display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
     margin-bottom: 18px;
     background: white;
@@ -170,10 +131,10 @@
     padding: 8px 10px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
-.pill {
+  .pill {
     background: linear-gradient(180deg, #fdfaf0 0%, #ece4cc 100%);
     border: 1px solid #b8a878;
-    padding: 8px 16px;
+    padding: 6px 10px;
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
     letter-spacing: .08em;
@@ -189,40 +150,27 @@
       0 2px 3px rgba(11,31,58,.25),
       0 4px 8px -3px rgba(11,31,58,.18);
     text-shadow: 0 1px 0 rgba(255,255,255,.6);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    line-height: 1.1;
   }
   .pill:hover {
     background: linear-gradient(180deg, #fffceb 0%, #f1e8ce 100%);
     border-color: var(--navy);
     transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.9),
-      inset 0 -2px 4px rgba(124,99,42,.2),
-      0 4px 6px rgba(11,31,58,.3),
-      0 6px 12px -3px rgba(11,31,58,.22);
   }
-  .pill:active {
-    transform: translateY(1px);
-    box-shadow:
-      inset 0 2px 4px rgba(124,99,42,.35),
-      inset 0 -1px 0 rgba(255,255,255,.4),
-      0 1px 2px rgba(11,31,58,.2);
-  }
+  .pill:active { transform: translateY(1px); }
   .pill.active {
     background: linear-gradient(180deg, #1a2f54 0%, #061226 100%);
     color: var(--gold-bright);
     border-color: #0a1a30;
     text-shadow: 0 1px 0 rgba(0,0,0,.5);
-    box-shadow:
-      inset 0 1px 0 rgba(227,191,99,.35),
-      inset 0 -2px 4px rgba(0,0,0,.5),
-      0 2px 3px rgba(11,31,58,.4),
-      0 4px 10px -3px rgba(11,31,58,.5);
   }
   .pill.active:hover {
     background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%);
-    transform: translateY(-1px);
   }
-  .pill { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.1; }
   .pill .count {
     color: var(--muted);
     margin: 0;
@@ -233,17 +181,21 @@
   }
   .pill.active .count { color: rgba(227,191,99,.7); }
   .spacer { flex: 1; min-width: 0; }
-  @media (max-width: 480px) { .spacer { display: none; } }
-  .sort-select {
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    border: 1px solid var(--line);
-    padding: 7px 10px;
-    background: white;
-    color: var(--navy);
+
+  .menu-btn {
+    background: linear-gradient(180deg,#fdfaf0 0%,#ece4cc 100%);
+    border: 1px solid #b8a878;
+    border-radius: 999px;
+    padding: 6px 10px;
     cursor: pointer;
+    font-size: 18px;
+    color: var(--navy);
+    font-weight: 700;
+    line-height: 1;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.85),
+      inset 0 -2px 4px rgba(124,99,42,.18),
+      0 2px 3px rgba(11,31,58,.25);
   }
 
   .grid {
@@ -260,78 +212,42 @@
     box-shadow: 0 8px 20px -16px rgba(6,18,38,.35);
     position: relative;
   }
-
   .item-head {
     display: flex; align-items: center; gap: 8px;
     margin-bottom: 8px;
     font-family: 'Oswald', sans-serif;
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    font-weight: 600;
-    flex-wrap: wrap;
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    font-weight: 600; flex-wrap: wrap;
   }
-  .mou-tag {
-    background: var(--navy);
-    color: var(--gold-bright);
-    padding: 3px 8px;
-    border-radius: 2px;
-  }
-  .cat-tag {
-    background: var(--paper-warm);
-    color: var(--navy);
-    padding: 3px 8px;
-    border-radius: 2px;
-  }
-
+  .mou-tag { background: var(--navy); color: var(--gold-bright); padding: 3px 8px; border-radius: 2px; }
+  .cat-tag { background: var(--paper-warm); color: var(--navy); padding: 3px 8px; border-radius: 2px; }
   .proposal {
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.55;
-    flex: 1;
-    margin-bottom: 12px;
-    word-wrap: break-word;
+    color: var(--ink); font-size: 15px; line-height: 1.55;
+    flex: 1; margin-bottom: 12px; word-wrap: break-word;
   }
   .proposal a {
-    color: var(--navy);
-    text-decoration: underline;
-    text-decoration-color: var(--gold);
-    text-underline-offset: 2px;
+    color: var(--navy); text-decoration: underline;
+    text-decoration-color: var(--gold); text-underline-offset: 2px;
   }
   .proposal a:hover { color: var(--navy-deep); }
-
   .item-foot {
     display: flex; align-items: center; gap: 12px;
     border-top: 1px dashed var(--line);
     padding-top: 10px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    letter-spacing: .04em;
+    font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: .04em;
   }
-  .thumb {
-    display: inline-flex; align-items: center; gap: 5px;
-    color: var(--muted);
-  }
+  .thumb { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
   .thumb.up   { color: var(--up); }
   .thumb.down { color: var(--down); }
   .thumb svg { width: 14px; height: 14px; }
   .ts {
-    margin-left: auto;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    margin-left: auto; color: var(--muted);
+    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
   }
-
-  .state {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--muted);
-  }
+  .state { text-align: center; padding: 80px 20px; color: var(--muted); }
   .state h2 {
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase; letter-spacing: .08em;
-    color: var(--navy);
+    font-family: 'Oswald', sans-serif; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--navy);
   }
   .skeleton {
     background: linear-gradient(90deg, #ece7d8 0%, #f5f2ea 50%, #ece7d8 100%);
@@ -341,21 +257,13 @@
     border-left: 4px solid var(--line);
   }
   @keyframes shimmer { to { background-position: -200% 0; } }
-
   footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 11px;
-    padding: 20px 16px 30px;
-    letter-spacing: .04em;
+    text-align: center; color: var(--muted); font-size: 11px;
+    padding: 20px 16px 30px; letter-spacing: .04em;
   }
-  footer a {
-    color: var(--navy);
-    text-decoration: none;
-    border-bottom: 1px solid var(--gold);
-  }
-/* Compact FlipDown when embedded inside memberinfo iframe */
-/* In-app: clean edge-to-edge flip clock, no banner chrome */
+  footer a { color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--gold); }
+
+  /* In-app: clean edge-to-edge flip clock, no banner chrome */
   body.inapp #mouwishCountdown {
     background: transparent !important;
     border: none !important;
@@ -395,29 +303,12 @@
     font-weight: 600 !important;
   }
 
-  /* Stack count below pill label */
-  .pill {
-    display: inline-flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 2px !important;
-    line-height: 1.1 !important;
-  }
-  .pill .count {
-    margin: 0 !important;
-    font-size: 10px !important;
-    color: var(--muted);
-    font-weight: 500;
-    letter-spacing: .04em;
-  }
-  .pill.active .count { color: rgba(227,191,99,.7); }
-
   /* Mobile: tighter toolbar so all 4 pills + menu fit on one row */
   @media (max-width: 480px) {
-    .pill { padding: 5px 8px !important; font-size: 11px !important; gap: 1px !important; flex-shrink: 1; min-width: 0; }
-    .pill .count { font-size: 9px !important; }
+    .pill { padding: 5px 8px; font-size: 11px; gap: 1px; flex-shrink: 1; min-width: 0; }
+    .pill .count { font-size: 9px; }
     .toolbar { padding: 6px 8px; gap: 4px; }
-    .menu-btn { padding: 5px 8px !important; font-size: 16px !important; }
+    .menu-btn { padding: 5px 8px; font-size: 16px; }
     .spacer { display: none; }
   }
 </style>
@@ -443,11 +334,12 @@
   <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px">
     <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
   </div>
-<div id="flipdown-wrap" style="margin:0 auto;overflow:visible">
+  <div id="flipdown-wrap" style="margin:0 auto;overflow:visible">
     <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto;transform:scale(0.9);transform-origin:top center"></div>
   </div>
   <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
 </div>
+
   <div class="advisement" id="advisement">
     <button class="advisement-close" id="advisement-close" aria-label="Dismiss" title="Dismiss">&times;</button>
     <div class="advisement-head">
@@ -464,13 +356,13 @@
   </div>
 
   <div class="toolbar" id="toolbar">
-<button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
+    <button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
     <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
     <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
     <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
     <div class="spacer"></div>
     <div class="menu-wrap" style="position:relative">
-      <button class="menu-btn" id="menuBtn" aria-label="Menu" style="background:linear-gradient(180deg,#fdfaf0 0%,#ece4cc 100%);border:1px solid #b8a878;border-radius:999px;padding:6px 10px;cursor:pointer;font-size:18px;color:var(--navy);font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -2px 4px rgba(124,99,42,.18),0 2px 3px rgba(11,31,58,.25);line-height:1">⋮</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">⋮</button>
       <div id="menuDropdown" style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--line);border-radius:8px;z-index:30;min-width:220px;box-shadow:0 6px 20px rgba(11,31,58,.18);padding:6px">
         <div style="padding:6px 4px 4px 4px"><input type="text" id="searchBox" placeholder="Search wishes…" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;outline:none;box-sizing:border-box"></div>
         <div style="border-top:1px solid var(--line);margin:4px 0"></div>
@@ -502,14 +394,15 @@
 
 <script>
   // ============================================================
-  // CONFIG
+  // CONFIG + STATE (declared first so nothing references undefined)
   // ============================================================
   const API_URL = 'https://mouwish-api.mike-a78.workers.dev/api/list';
-  const REFRESH_MS = 30_000;
+  const REFRESH_MS = 30000;
 
   let allItems = [];
   let filter = 'all';
   let sortMode = 'net';
+  let searchQuery = '';
 
   // ============================================================
   // FETCH
@@ -550,13 +443,19 @@
 
     let items = filter === 'all' ? allItems.slice() : allItems.filter(i => i.mou === filter);
 
-    // Apply search filter
     if (searchQuery) {
       items = items.filter(i => {
-        const haystack = ((i.title || '') + ' ' + (i.detail || '') + ' ' + (i.category || '') + ' ' + (i.mou || '')).toLowerCase();
+        const haystack = (
+          (i.title || '') + ' ' +
+          (i.proposal || '') + ' ' +
+          (i.proposalHtml || '') + ' ' +
+          (i.category || '') + ' ' +
+          (i.mou || '')
+        ).toLowerCase();
         return haystack.includes(searchQuery);
       });
     }
+
     items.sort((a, b) => {
       if (sortMode === 'net')      return (b.netScore || 0) - (a.netScore || 0);
       if (sortMode === 'newest')   return new Date(b.timestamp) - new Date(a.timestamp);
@@ -571,8 +470,6 @@
     }
     empty.style.display = 'none';
 
-    // Render via DOM (not innerHTML for the proposal body) so we can
-    // re-sanitize the server-trusted HTML one more time on the client.
     grid.innerHTML = '';
     items.forEach(i => grid.appendChild(buildCard(i)));
   }
@@ -594,7 +491,6 @@
 
     const proposal = document.createElement('div');
     proposal.className = 'proposal';
-    // Server already sanitized; we re-sanitize as defense-in-depth.
     proposal.innerHTML = clientSanitize(i.proposalHtml || escapeHtml(i.proposal || ''));
     article.appendChild(proposal);
 
@@ -622,7 +518,6 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  // Defense-in-depth: re-sanitize server HTML before injecting.
   function clientSanitize(html) {
     const tmpl = document.createElement('template');
     tmpl.innerHTML = String(html || '');
@@ -661,7 +556,7 @@
   }
 
   // ============================================================
-  // EVENTS
+  // EVENTS: pills
   // ============================================================
   document.getElementById('toolbar').addEventListener('click', e => {
     const btn = e.target.closest('.pill');
@@ -671,11 +566,13 @@
     filter = btn.dataset.mou;
     render();
   });
-// 3-dot menu + search wiring
+
+  // ============================================================
+  // EVENTS: 3-dot menu + search
+  // ============================================================
   const menuBtn = document.getElementById('menuBtn');
   const menuDropdown = document.getElementById('menuDropdown');
   const searchBox = document.getElementById('searchBox');
-  let searchQuery = '';
 
   menuBtn.addEventListener('click', e => {
     e.stopPropagation();
@@ -699,28 +596,19 @@
       render();
     });
   });
+
   // ============================================================
-  // ADVISEMENT: hide if viewed inside the app, otherwise show
+  // ADVISEMENT: hide if viewed inside the app
   // ============================================================
   (function setupAdvisement() {
     const advisement = document.getElementById('advisement');
     if (!advisement) return;
-
-    // Hide if:
-    //   - URL has ?inapp=1 (the widget links to viewer with this when needed)
-    //   - referrer is the memberinfo page
-    //   - user dismissed it previously (localStorage)
     const params = new URLSearchParams(window.location.search);
     const inApp = params.get('inapp') === '1';
     const refIsApp = (document.referrer || '').indexOf('laapoa.github.io/memberinfo') >= 0;
-    const dismissed = false; // We'll set this only after they click X this session
     let dismissedSession = false;
     try { dismissedSession = sessionStorage.getItem('mw-advisement-dismissed') === '1'; } catch (_) {}
-
-    if (inApp || refIsApp || dismissedSession) {
-      advisement.style.display = 'none';
-    }
-
+    if (inApp || refIsApp || dismissedSession) advisement.style.display = 'none';
     document.getElementById('advisement-close').addEventListener('click', () => {
       advisement.style.display = 'none';
       try { sessionStorage.setItem('mw-advisement-dismissed', '1'); } catch (_) {}
@@ -736,6 +624,7 @@
     if (document.visibilityState === 'visible') load();
   });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 <script>
 (async function(){
@@ -751,7 +640,7 @@
     const banner = document.getElementById('mouwishCountdown');
     const fdEl = document.getElementById('flipdown-viewer');
     const closedEl = document.getElementById('mouwishClosed');
-banner.style.display = 'block';
+    banner.style.display = 'block';
     if (deadline <= Date.now()) {
       fdEl.style.display = 'none';
       closedEl.style.display = 'block';
