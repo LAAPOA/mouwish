@@ -6,7 +6,7 @@
 <title>LAAPOA MOU Wish List</title>
 <meta name="theme-color" content="#0b1f3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -608,17 +608,10 @@
 <main>
   <div id="form-wrap">
 
-    <div class="countdown" id="countdown">
-      <div>
-        <div class="countdown-label">Submissions Close In</div>
-        <div class="countdown-deadline" id="countdown-deadline">Wednesday, May 20, 2026 at 12:00 PM Pacific</div>
-      </div>
-      <div class="countdown-clock" aria-live="polite">
-        <div class="countdown-unit"><span class="countdown-num" id="cd-d">--</span><span class="countdown-tag">Days</span></div>
-        <div class="countdown-unit"><span class="countdown-num" id="cd-h">--</span><span class="countdown-tag">Hours</span></div>
-        <div class="countdown-unit"><span class="countdown-num" id="cd-m">--</span><span class="countdown-tag">Min</span></div>
-        <div class="countdown-unit"><span class="countdown-num" id="cd-s">--</span><span class="countdown-tag">Sec</span></div>
-      </div>
+<div class="countdown" id="countdown">
+      <div class="countdown-label" style="text-align:center;margin-bottom:6px">Submissions Close In</div>
+      <div class="countdown-deadline" id="countdown-deadline" style="text-align:center;margin-bottom:14px">Wednesday, May 20, 2026 at 12:00 PM Pacific</div>
+      <div id="flipdown-form" class="flipdown flipdown__theme-light" style="margin:0 auto"></div>
     </div>
 
     <div class="intro">
@@ -771,50 +764,16 @@ loadDeadline();
   // ============================================================
   // COUNTDOWN + WINDOW GATE
   // ============================================================
-  function pad2(n) { return String(n).padStart(2, '0'); }
-
-  function updateCountdown() {
-    const now = new Date();
-    const diff = DEADLINE.getTime() - now.getTime();
-    if (diff <= 0) {
-      // Closed. Replace the entire form with the 404-style screen.
-      showClosedScreen();
-      return false;
-    }
-    const sec = Math.floor(diff / 1000);
-    const days  = Math.floor(sec / 86400);
-    const hours = Math.floor((sec % 86400) / 3600);
-    const mins  = Math.floor((sec % 3600) / 60);
-    const secs  = sec % 60;
-    document.getElementById('cd-d').textContent = pad2(days);
-    document.getElementById('cd-h').textContent = pad2(hours);
-    document.getElementById('cd-m').textContent = pad2(mins);
-    document.getElementById('cd-s').textContent = pad2(secs);
-
-    // Urgent styling in the final 24 hours
-    const cd = document.getElementById('countdown');
-    if (diff < 24 * 3600 * 1000) cd.classList.add('urgent');
-    else cd.classList.remove('urgent');
-    return true;
-  }
-
-  function showClosedScreen() {
+function showClosedScreen() {
     const form = document.getElementById('form-wrap');
     const success = document.getElementById('success-screen');
     const closed = document.getElementById('closed-screen');
     if (form) form.style.display = 'none';
     if (success) success.classList.remove('show');
     if (closed) closed.style.display = 'block';
-    // Update the page title for clarity
     document.title = '404 · MOU Wish List Closed · LAAPOA';
-    // Stop the interval — nothing else to update
-    if (window.__cdInterval) {
-      clearInterval(window.__cdInterval);
-      window.__cdInterval = null;
-    }
   }
 
-// Wrap in initCountdown so loadDeadline can call this after fetch
   function initCountdown() {
     if (!DEADLINE) {
       const cd = document.getElementById('countdown');
@@ -830,9 +789,14 @@ loadDeadline();
         });
       } catch(e) {}
     }
-    if (updateCountdown()) {
-      window.__cdInterval = setInterval(updateCountdown, 1000);
+    if (DEADLINE.getTime() <= Date.now()) {
+      showClosedScreen();
+      return;
     }
+    const uts = Math.floor(DEADLINE.getTime() / 1000);
+    new FlipDown(uts, 'flipdown-form', { theme: 'light' })
+      .start()
+      .ifEnded(() => { showClosedScreen(); });
   }
 
   const CATEGORIES = [
@@ -1331,5 +1295,6 @@ loadDeadline();
 
   addRow(document.querySelector('.cat-block'));
 </script>
+<script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 </body>
 </html>
