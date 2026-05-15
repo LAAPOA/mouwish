@@ -677,6 +677,21 @@
     border-color: var(--danger) !important;
     color: white !important;
   }
+  /* Force flip card digit positioning */
+  .fc-card { perspective: 600px; }
+  .fc-card .fc-digit-current,
+  .fc-card .fc-digit-next {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    transform-style: preserve-3d;
+  }
+  .fc-card .fc-digit-current { transform: rotateX(0deg); }
+  .fc-card .fc-digit-next    { transform: rotateX(-180deg); }
 </style>
 </head>
 <body>
