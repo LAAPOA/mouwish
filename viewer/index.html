@@ -7,7 +7,6 @@
 <meta name="theme-color" content="#0b1f3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -39,20 +38,9 @@
     border-bottom: 4px solid var(--gold);
     padding: 22px 24px;
   }
-  .h-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  }
-  .crest {
-    width: 56px; height: 56px;
-    display: grid; place-items: center;
-    flex-shrink: 0;
-  }
-  .crest img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
-  }
+  .h-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .crest { width: 56px; height: 56px; display: grid; place-items: center; flex-shrink: 0; }
+  .crest img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
   header h1 {
     font-family: 'Oswald', sans-serif; font-weight: 700;
     letter-spacing: .08em; text-transform: uppercase;
@@ -65,15 +53,120 @@
     font-size: 10px;
   }
   header .meta {
-    margin-left: auto;
-    font-size: 12px;
-    color: rgba(245,242,234,.7);
+    margin-left: auto; font-size: 12px; color: rgba(245,242,234,.7);
     font-family: 'Oswald', sans-serif; letter-spacing: .12em; text-transform: uppercase;
   }
   header .meta b { color: var(--gold-bright); }
-
   main { max-width: 1100px; margin: 0 auto; padding: 22px 20px 80px; }
 
+  /* ============================================================
+     FLIP CLOCK (custom, no library)
+     ============================================================ */
+  .fc {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto;
+  }
+  .fc-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .fc-card {
+    position: relative;
+    width: 70px;
+    height: 90px;
+    background: var(--navy);
+    color: var(--gold-bright);
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 90px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  }
+  /* Subtle horizontal divider mid-card */
+  .fc-card::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: rgba(0,0,0,.35);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .fc-card .fc-digit-current,
+  .fc-card .fc-digit-next {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .fc-card .fc-digit-next {
+    transform: rotateX(-180deg);
+  }
+  .fc-card.flip .fc-digit-current {
+    animation: fc-flip-out .55s cubic-bezier(.4,.05,.3,.95) forwards;
+    transform-origin: center bottom;
+  }
+  .fc-card.flip .fc-digit-next {
+    animation: fc-flip-in .55s cubic-bezier(.4,.05,.3,.95) forwards;
+    transform-origin: center top;
+  }
+  @keyframes fc-flip-out {
+    0%   { transform: rotateX(0); }
+    100% { transform: rotateX(-180deg); }
+  }
+  @keyframes fc-flip-in {
+    0%   { transform: rotateX(180deg); }
+    100% { transform: rotateX(0); }
+  }
+  .fc-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* In-app: black cards, white digits */
+  body.inapp .fc-card {
+    background: #000;
+    color: #ffffff;
+  }
+  body.inapp .fc-label { color: var(--navy); }
+  /* In-app: shift clock slightly left, scale up a bit */
+  body.inapp .fc { transform: translateX(-5px); }
+
+  /* In-app: clean edge-to-edge banner, no banner chrome */
+  body.inapp #mouwishCountdown {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 14px 0 !important;
+  }
+  body.inapp #mouwishCountdown > div:first-child { display: none !important; }
+  body.inapp #mouwishClosed { display: none !important; }
+
+  /* Mobile: smaller cards */
+  @media (max-width: 540px) {
+    .fc-card { width: 54px; height: 70px; font-size: 42px; line-height: 70px; }
+    .fc { gap: 8px; }
+  }
+  @media (max-width: 380px) {
+    .fc-card { width: 46px; height: 62px; font-size: 36px; line-height: 62px; }
+    .fc { gap: 6px; }
+  }
+
+  /* ============================================================
+     ADVISEMENT
+     ============================================================ */
   .advisement {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
     border: 1px solid var(--gold);
@@ -86,19 +179,13 @@
   }
   .advisement-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .advisement-badge {
-    background: var(--navy);
-    color: var(--gold-bright);
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .12em;
-    font-size: 10px; font-weight: 700;
-    padding: 4px 10px; border-radius: 999px;
+    background: var(--navy); color: var(--gold-bright);
+    font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .12em;
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
   }
   .advisement h2 {
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase; letter-spacing: .08em;
-    color: var(--navy);
-    margin: 0; font-size: 14px; font-weight: 700;
+    font-family: 'Oswald', sans-serif; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--navy); margin: 0; font-size: 14px; font-weight: 700;
   }
   .advisement p { margin: 0 0 10px; color: #2e333c; font-size: 14px; line-height: 1.55; }
   .advisement p:last-child { margin-bottom: 0; }
@@ -106,29 +193,28 @@
   .advisement-actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
   .advisement-btn {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--navy); color: var(--gold-bright);
-    border: 2px solid var(--gold);
-    padding: 8px 16px;
-    font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .08em;
-    font-size: 11px; font-weight: 700;
+    background: var(--navy); color: var(--gold-bright); border: 2px solid var(--gold);
+    padding: 8px 16px; font-family: 'Oswald', sans-serif; text-transform: uppercase;
+    letter-spacing: .08em; font-size: 11px; font-weight: 700;
     text-decoration: none; border-radius: 2px; transition: all .15s;
   }
   .advisement-btn:hover { background: var(--gold); color: var(--navy-deep); }
   .advisement-btn.alt { background: white; color: var(--navy); border-color: var(--line); }
   .advisement-btn.alt:hover { background: #fff8e8; border-color: var(--gold); }
   .advisement-close {
-    position: absolute; top: 10px; right: 12px;
-    background: transparent; border: none; color: var(--muted);
-    font-size: 18px; cursor: pointer; padding: 4px 8px; line-height: 1;
+    position: absolute; top: 10px; right: 12px; background: transparent;
+    border: none; color: var(--muted); font-size: 18px; cursor: pointer;
+    padding: 4px 8px; line-height: 1;
   }
   .advisement-close:hover { color: var(--navy); }
 
+  /* ============================================================
+     TOOLBAR + PILLS
+     ============================================================ */
   .toolbar {
     display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
-    margin-bottom: 18px;
-    background: white;
-    border: 1px solid var(--line);
-    padding: 8px 10px;
+    margin-bottom: 18px; background: white;
+    border: 1px solid var(--line); padding: 8px 10px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
   .pill {
@@ -150,11 +236,8 @@
       0 2px 3px rgba(11,31,58,.25),
       0 4px 8px -3px rgba(11,31,58,.18);
     text-shadow: 0 1px 0 rgba(255,255,255,.6);
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    line-height: 1.1;
+    display: inline-flex; flex-direction: column; align-items: center;
+    gap: 2px; line-height: 1.1;
   }
   .pill:hover {
     background: linear-gradient(180deg, #fffceb 0%, #f1e8ce 100%);
@@ -172,52 +255,40 @@
     background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%);
   }
   .pill .count {
-    color: var(--muted);
-    margin: 0;
-    font-weight: 500;
-    text-shadow: none;
-    font-size: 10px;
-    letter-spacing: .04em;
+    color: var(--muted); margin: 0; font-weight: 500; text-shadow: none;
+    font-size: 10px; letter-spacing: .04em;
   }
   .pill.active .count { color: rgba(227,191,99,.7); }
   .spacer { flex: 1; min-width: 0; }
-
   .menu-btn {
     background: linear-gradient(180deg,#fdfaf0 0%,#ece4cc 100%);
-    border: 1px solid #b8a878;
-    border-radius: 999px;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--navy);
-    font-weight: 700;
-    line-height: 1;
+    border: 1px solid #b8a878; border-radius: 999px;
+    padding: 6px 10px; cursor: pointer; font-size: 18px;
+    color: var(--navy); font-weight: 700; line-height: 1;
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,.85),
       inset 0 -2px 4px rgba(124,99,42,.18),
       0 2px 3px rgba(11,31,58,.25);
   }
 
+  /* ============================================================
+     GRID + CARDS
+     ============================================================ */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 14px;
   }
   .item {
-    background: white;
-    border: 1px solid var(--line);
-    border-left: 4px solid var(--gold);
-    padding: 14px 16px;
+    background: white; border: 1px solid var(--line);
+    border-left: 4px solid var(--gold); padding: 14px 16px;
     display: flex; flex-direction: column;
-    box-shadow: 0 8px 20px -16px rgba(6,18,38,.35);
-    position: relative;
+    box-shadow: 0 8px 20px -16px rgba(6,18,38,.35); position: relative;
   }
   .item-head {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 8px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-    font-weight: 600; flex-wrap: wrap;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+    font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; font-weight: 600; flex-wrap: wrap;
   }
   .mou-tag { background: var(--navy); color: var(--gold-bright); padding: 3px 8px; border-radius: 2px; }
   .cat-tag { background: var(--paper-warm); color: var(--navy); padding: 3px 8px; border-radius: 2px; }
@@ -232,18 +303,14 @@
   .proposal a:hover { color: var(--navy-deep); }
   .item-foot {
     display: flex; align-items: center; gap: 12px;
-    border-top: 1px dashed var(--line);
-    padding-top: 10px;
+    border-top: 1px dashed var(--line); padding-top: 10px;
     font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: .04em;
   }
   .thumb { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
   .thumb.up   { color: var(--up); }
   .thumb.down { color: var(--down); }
   .thumb svg { width: 14px; height: 14px; }
-  .ts {
-    margin-left: auto; color: var(--muted);
-    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-  }
+  .ts { margin-left: auto; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
   .state { text-align: center; padding: 80px 20px; color: var(--muted); }
   .state h2 {
     font-family: 'Oswald', sans-serif; text-transform: uppercase;
@@ -253,8 +320,7 @@
     background: linear-gradient(90deg, #ece7d8 0%, #f5f2ea 50%, #ece7d8 100%);
     background-size: 200% 100%;
     animation: shimmer 1.4s linear infinite;
-    height: 140px;
-    border-left: 4px solid var(--line);
+    height: 140px; border-left: 4px solid var(--line);
   }
   @keyframes shimmer { to { background-position: -200% 0; } }
   footer {
@@ -263,68 +329,7 @@
   }
   footer a { color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--gold); }
 
-  /* In-app: clean edge-to-edge flip clock, no banner chrome */
-  body.inapp #mouwishCountdown {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 0 14px 0 !important;
-  }
-  body.inapp #mouwishCountdown > div:first-child { display: none !important; }
-  body.inapp #mouwishClosed { display: none !important; }
-  body.inapp #flipdown-wrap { height: auto; overflow: visible; }
-  body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin: top center; }
-
-  /* In-app flip clock: solid navy cards, plain white digits, no gradients */
-  body.inapp .flipdown,
-  body.inapp .flipdown *,
-  body.inapp .flipdown *::before,
-  body.inapp .flipdown *::after {
-    background: var(--navy) !important;
-    background-image: none !important;
-    background-color: var(--navy) !important;
-    color: #ffffff !important;
-    text-shadow: none !important;
-    -webkit-text-fill-color: #ffffff !important;
-    background-clip: border-box !important;
-    -webkit-background-clip: border-box !important;
-    box-shadow: none !important;
-  }
-body.inapp .flipdown .rotor::before,
-  body.inapp .flipdown .rotor::after {
-    background: transparent !important;
-    background-color: transparent !important;
-  }
-
-  /* Defeat the flip animation's gradient on rotor halves */
-  body.inapp .flipdown .rotor-top,
-  body.inapp .flipdown .rotor-bottom,
-  body.inapp .flipdown .rotor-leaf-front,
-  body.inapp .flipdown .rotor-leaf-rear,
-  body.inapp .flipdown .rotor.flipped .rotor-leaf,
-  body.inapp .flipdown .rotor:not(.flipped) .rotor-leaf {
-    background: var(--navy) !important;
-    background-image: none !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    border-color: var(--navy-deep) !important;
-  }
-
-  /* The divider line between top/bottom halves */
-  body.inapp .flipdown .rotor::before {
-    background: var(--navy-deep) !important;
-    background-color: var(--navy-deep) !important;
-    opacity: 1 !important;
-  }
-  body.inapp .flipdown .rotor-group-heading::before {
-    background: transparent !important;
-    background-color: transparent !important;
-    color: var(--navy) !important;
-    -webkit-text-fill-color: var(--navy) !important;
-    font-weight: 600 !important;
-  }
-
-  /* Mobile: tighter toolbar so all 4 pills + menu fit on one row */
+  /* Mobile: tighter toolbar */
   @media (max-width: 480px) {
     .pill { padding: 5px 8px; font-size: 11px; gap: 1px; flex-shrink: 1; min-width: 0; }
     .pill .count { font-size: 9px; }
@@ -351,61 +356,60 @@ body.inapp .flipdown .rotor::before,
 </header>
 
 <main>
+
 <div id="mouwishCountdown" style="display:none;background:linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:4px;padding:18px 22px;margin-bottom:18px;text-align:center">
-  <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px">
+  <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px">
     <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
   </div>
-  <div id="flipdown-wrap" style="margin:0 auto;overflow:visible">
-    <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto;transform:scale(0.9);transform-origin:top center"></div>
-  </div>
+  <div id="fc-clock" class="fc"></div>
   <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
 </div>
 
-  <div class="advisement" id="advisement">
-    <button class="advisement-close" id="advisement-close" aria-label="Dismiss" title="Dismiss">&times;</button>
-    <div class="advisement-head">
-      <span class="advisement-badge">For Members</span>
-      <h2>How to participate</h2>
-    </div>
-    <p>This page is a <strong>read-only public board</strong> showing every wish-list idea submitted by LAAPOA members.</p>
-    <p><strong>To submit your own idea:</strong> open the submission form at the link below before the deadline. Submissions are anonymous by default, with an option to identify yourself if you want a follow-up.</p>
-    <p><strong>To 👍 or 👎 an idea:</strong> open the LAAPOA membership app and go to the <strong>Announcements</strong> tab. Reactions are tracked per member and can be changed at any time.</p>
-    <div class="advisement-actions">
-      <a class="advisement-btn" href="../">Submit an idea →</a>
-      <a class="advisement-btn alt" href="https://laapoa.github.io/memberinfo/" target="_blank" rel="noopener">Open the LAAPOA app</a>
-    </div>
+<div class="advisement" id="advisement">
+  <button class="advisement-close" id="advisement-close" aria-label="Dismiss" title="Dismiss">&times;</button>
+  <div class="advisement-head">
+    <span class="advisement-badge">For Members</span>
+    <h2>How to participate</h2>
   </div>
+  <p>This page is a <strong>read-only public board</strong> showing every wish-list idea submitted by LAAPOA members.</p>
+  <p><strong>To submit your own idea:</strong> open the submission form at the link below before the deadline. Submissions are anonymous by default, with an option to identify yourself if you want a follow-up.</p>
+  <p><strong>To 👍 or 👎 an idea:</strong> open the LAAPOA membership app and go to the <strong>Announcements</strong> tab. Reactions are tracked per member and can be changed at any time.</p>
+  <div class="advisement-actions">
+    <a class="advisement-btn" href="../">Submit an idea →</a>
+    <a class="advisement-btn alt" href="https://laapoa.github.io/memberinfo/" target="_blank" rel="noopener">Open the LAAPOA app</a>
+  </div>
+</div>
 
-  <div class="toolbar" id="toolbar">
-    <button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
-    <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
-    <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
-    <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
-    <div class="spacer"></div>
-    <div class="menu-wrap" style="position:relative">
-      <button class="menu-btn" id="menuBtn" aria-label="Menu">⋮</button>
-      <div id="menuDropdown" style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--line);border-radius:8px;z-index:30;min-width:220px;box-shadow:0 6px 20px rgba(11,31,58,.18);padding:6px">
-        <div style="padding:6px 4px 4px 4px"><input type="text" id="searchBox" placeholder="Search wishes…" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;outline:none;box-sizing:border-box"></div>
-        <div style="border-top:1px solid var(--line);margin:4px 0"></div>
-        <div style="padding:4px 8px;font-size:10px;color:var(--muted);font-family:'Oswald',sans-serif;letter-spacing:.12em;text-transform:uppercase">Sort by</div>
-        <button class="menu-item" data-sort="net" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Most Upvoted</button>
-        <button class="menu-item" data-sort="newest" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Newest</button>
-        <button class="menu-item" data-sort="category" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Category</button>
-      </div>
+<div class="toolbar" id="toolbar">
+  <button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
+  <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
+  <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
+  <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
+  <div class="spacer"></div>
+  <div class="menu-wrap" style="position:relative">
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">⋮</button>
+    <div id="menuDropdown" style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--line);border-radius:8px;z-index:30;min-width:220px;box-shadow:0 6px 20px rgba(11,31,58,.18);padding:6px">
+      <div style="padding:6px 4px 4px 4px"><input type="text" id="searchBox" placeholder="Search wishes…" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;outline:none;box-sizing:border-box"></div>
+      <div style="border-top:1px solid var(--line);margin:4px 0"></div>
+      <div style="padding:4px 8px;font-size:10px;color:var(--muted);font-family:'Oswald',sans-serif;letter-spacing:.12em;text-transform:uppercase">Sort by</div>
+      <button class="menu-item" data-sort="net" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Most Upvoted</button>
+      <button class="menu-item" data-sort="newest" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Newest</button>
+      <button class="menu-item" data-sort="category" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);border-radius:4px">Category</button>
     </div>
   </div>
+</div>
 
-  <div id="grid" class="grid">
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-  </div>
+<div id="grid" class="grid">
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+</div>
 
-  <div class="state" id="empty" style="display:none;">
-    <h2>No submissions yet</h2>
-    <p>Be the first &mdash; submit a proposal on the wish-list form.</p>
-  </div>
+<div class="state" id="empty" style="display:none;">
+  <h2>No submissions yet</h2>
+  <p>Be the first &mdash; submit a proposal on the wish-list form.</p>
+</div>
 </main>
 
 <footer>
@@ -415,7 +419,7 @@ body.inapp .flipdown .rotor::before,
 
 <script>
   // ============================================================
-  // CONFIG + STATE (declared first so nothing references undefined)
+  // CONFIG + STATE
   // ============================================================
   const API_URL = 'https://mouwish-api.mike-a78.workers.dev/api/list';
   const REFRESH_MS = 30000;
@@ -455,13 +459,9 @@ body.inapp .flipdown .rotor::before,
     document.getElementById('total-count').textContent = total;
   }
 
-  // ============================================================
-  // RENDER
-  // ============================================================
   function render() {
     const grid = document.getElementById('grid');
     const empty = document.getElementById('empty');
-
     let items = filter === 'all' ? allItems.slice() : allItems.filter(i => i.mou === filter);
 
     if (searchQuery) {
@@ -476,21 +476,14 @@ body.inapp .flipdown .rotor::before,
         return haystack.includes(searchQuery);
       });
     }
-
     items.sort((a, b) => {
       if (sortMode === 'net')      return (b.netScore || 0) - (a.netScore || 0);
       if (sortMode === 'newest')   return new Date(b.timestamp) - new Date(a.timestamp);
       if (sortMode === 'category') return String(a.category).localeCompare(String(b.category));
       return 0;
     });
-
-    if (items.length === 0) {
-      grid.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
+    if (items.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
-
     grid.innerHTML = '';
     items.forEach(i => grid.appendChild(buildCard(i)));
   }
@@ -498,10 +491,8 @@ body.inapp .flipdown .rotor::before,
   function buildCard(i) {
     const ts = i.timestamp ? new Date(i.timestamp) : null;
     const tsStr = ts ? ts.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '';
-
     const article = document.createElement('article');
     article.className = 'item';
-
     const head = document.createElement('div');
     head.className = 'item-head';
     head.innerHTML = `
@@ -509,12 +500,10 @@ body.inapp .flipdown .rotor::before,
       <span class="cat-tag">${escapeHtml(i.category || '')}</span>
     `;
     article.appendChild(head);
-
     const proposal = document.createElement('div');
     proposal.className = 'proposal';
     proposal.innerHTML = clientSanitize(i.proposalHtml || escapeHtml(i.proposal || ''));
     article.appendChild(proposal);
-
     const foot = document.createElement('div');
     foot.className = 'item-foot';
     foot.innerHTML = `
@@ -529,7 +518,6 @@ body.inapp .flipdown .rotor::before,
       <span class="ts">${escapeHtml(tsStr)}</span>
     `;
     article.appendChild(foot);
-
     return article;
   }
 
@@ -538,7 +526,6 @@ body.inapp .flipdown .rotor::before,
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
-
   function clientSanitize(html) {
     const tmpl = document.createElement('template');
     tmpl.innerHTML = String(html || '');
@@ -594,7 +581,6 @@ body.inapp .flipdown .rotor::before,
   const menuBtn = document.getElementById('menuBtn');
   const menuDropdown = document.getElementById('menuDropdown');
   const searchBox = document.getElementById('searchBox');
-
   menuBtn.addEventListener('click', e => {
     e.stopPropagation();
     menuDropdown.style.display = menuDropdown.style.display === 'none' ? 'block' : 'none';
@@ -602,12 +588,10 @@ body.inapp .flipdown .rotor::before,
   });
   document.addEventListener('click', () => { menuDropdown.style.display = 'none'; });
   menuDropdown.addEventListener('click', e => e.stopPropagation());
-
   searchBox.addEventListener('input', e => {
     searchQuery = e.target.value.trim().toLowerCase();
     render();
   });
-
   document.querySelectorAll('.menu-item').forEach(btn => {
     btn.addEventListener('mouseenter', () => { btn.style.background = 'rgba(11,31,58,.06)'; });
     btn.addEventListener('mouseleave', () => { btn.style.background = 'none'; });
@@ -619,7 +603,7 @@ body.inapp .flipdown .rotor::before,
   });
 
   // ============================================================
-  // ADVISEMENT: hide if viewed inside the app
+  // ADVISEMENT
   // ============================================================
   (function setupAdvisement() {
     const advisement = document.getElementById('advisement');
@@ -646,40 +630,118 @@ body.inapp .flipdown .rotor::before,
   });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
+<!-- ============================================================
+     CUSTOM FLIP CLOCK
+     ============================================================ -->
 <script>
-(async function(){
+(function(){
+  // Mark inapp early for theming
   if (new URLSearchParams(location.search).get('inapp') === '1') {
     document.body.classList.add('inapp');
   }
-  try {
-    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
-    const d = await r.json();
-    if (!d || !d.deadline) return;
-    const deadline = new Date(d.deadline).getTime();
-    if (isNaN(deadline)) return;
+
+  const LABELS = ['Days', 'Hours', 'Min', 'Sec'];
+  let cards = [];  // [{el, current, next}] for each digit position
+
+  function buildClock(container) {
+    container.innerHTML = '';
+    cards = [];
+    for (let g = 0; g < 4; g++) {
+      const group = document.createElement('div');
+      group.className = 'fc-group';
+      const cardWrap = document.createElement('div');
+      cardWrap.style.display = 'flex';
+      cardWrap.style.gap = '4px';
+
+      // Two digits per group
+      for (let d = 0; d < 2; d++) {
+        const card = document.createElement('div');
+        card.className = 'fc-card';
+        const cur = document.createElement('div');
+        cur.className = 'fc-digit-current';
+        cur.textContent = '0';
+        const nxt = document.createElement('div');
+        nxt.className = 'fc-digit-next';
+        nxt.textContent = '0';
+        card.appendChild(cur);
+        card.appendChild(nxt);
+        cardWrap.appendChild(card);
+        cards.push({ el: card, current: cur, next: nxt, value: '0' });
+      }
+      group.appendChild(cardWrap);
+      const label = document.createElement('div');
+      label.className = 'fc-label';
+      label.textContent = LABELS[g];
+      group.appendChild(label);
+      container.appendChild(group);
+    }
+  }
+
+  function setDigit(idx, newVal) {
+    const c = cards[idx];
+    if (c.value === newVal) return;
+    c.next.textContent = newVal;
+    c.el.classList.remove('flip');
+    void c.el.offsetWidth;  // reflow to restart animation
+    c.el.classList.add('flip');
+    setTimeout(() => {
+      c.current.textContent = newVal;
+      c.el.classList.remove('flip');
+    }, 550);
+    c.value = newVal;
+  }
+
+  function update(deadline) {
+    const left = deadline - Date.now();
+    if (left <= 0) return false;
+    const totalSec = Math.floor(left / 1000);
+    const days = Math.floor(totalSec / 86400);
+    const hrs  = Math.floor((totalSec % 86400) / 3600);
+    const mins = Math.floor((totalSec % 3600) / 60);
+    const secs = totalSec % 60;
+    const vals = [
+      String(days).padStart(2, '0'),
+      String(hrs).padStart(2, '0'),
+      String(mins).padStart(2, '0'),
+      String(secs).padStart(2, '0'),
+    ];
+    let idx = 0;
+    vals.forEach(v => {
+      setDigit(idx++, v[0]);
+      setDigit(idx++, v[1]);
+    });
+    return true;
+  }
+
+  function showClosed() {
+    const clock = document.getElementById('fc-clock');
+    const closed = document.getElementById('mouwishClosed');
     const banner = document.getElementById('mouwishCountdown');
-    const fdEl = document.getElementById('flipdown-viewer');
-    const closedEl = document.getElementById('mouwishClosed');
-    banner.style.display = 'block';
-    if (deadline <= Date.now()) {
-      fdEl.style.display = 'none';
-      closedEl.style.display = 'block';
-      closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+    clock.style.display = 'none';
+    closed.style.display = 'block';
+    closed.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+    if (banner) {
       banner.style.background = 'rgba(192,57,43,.08)';
       banner.style.borderColor = '#C0392B';
-      return;
     }
-    const uts = Math.floor(deadline / 1000);
-    new FlipDown(uts, 'flipdown-viewer', { theme: 'light' })
-      .start()
-      .ifEnded(() => {
-        fdEl.style.display = 'none';
-        closedEl.style.display = 'block';
-        closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
-        banner.style.background = 'rgba(192,57,43,.08)';
-      });
-  } catch (e) {}
+  }
+
+  (async function init(){
+    try {
+      const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
+      const d = await r.json();
+      if (!d || !d.deadline) return;
+      const deadline = new Date(d.deadline).getTime();
+      if (isNaN(deadline)) return;
+      const banner = document.getElementById('mouwishCountdown');
+      const clock = document.getElementById('fc-clock');
+      banner.style.display = 'block';
+      if (deadline <= Date.now()) { showClosed(); return; }
+      buildClock(clock);
+      update(deadline);
+      setInterval(() => { if (!update(deadline)) showClosed(); }, 1000);
+    } catch (e) { console.error('clock init failed', e); }
+  })();
 })();
 </script>
 </body>
