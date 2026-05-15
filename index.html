@@ -757,15 +757,11 @@
   // Submission deadline: Wednesday May 20, 2026 at 12:00 PM Pacific.
   // Pacific = UTC-7 in May (Daylight Time), so 12:00 PT = 19:00 UTC.
 let DEADLINE = null;
-const LAAPOA_API = 'https://laapoa-api.mike-a78.workers.dev';
- 
+let DEADLINE = null;
+
 async function loadDeadline() {
   try {
-    const r = await fetch(LAAPOA_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'getMouwishDeadline' })
-    });
+    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     const d = await r.json();
     if (d && d.deadline) DEADLINE = new Date(d.deadline);
   } catch (e) {}
