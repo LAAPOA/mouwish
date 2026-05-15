@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#0b1f3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -47,10 +48,8 @@
     margin: 0; font-size: clamp(18px, 2.6vw, 24px);
   }
   header .sub {
-    color: var(--gold-bright);
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: .22em; text-transform: uppercase;
-    font-size: 10px;
+    color: var(--gold-bright); font-family: 'Oswald', sans-serif;
+    letter-spacing: .22em; text-transform: uppercase; font-size: 10px;
   }
   header .meta {
     margin-left: auto; font-size: 12px; color: rgba(245,242,234,.7);
@@ -59,114 +58,39 @@
   header .meta b { color: var(--gold-bright); }
   main { max-width: 1100px; margin: 0 auto; padding: 22px 20px 80px; }
 
-  /* ============================================================
-     FLIP CLOCK (custom, no library)
-     ============================================================ */
-  .fc {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 0 auto;
-  }
-  .fc-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .fc-card {
-    position: relative;
-    width: 70px;
-    height: 90px;
-    background: var(--navy);
-    color: var(--gold-bright);
-    border-radius: 8px;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 56px;
-    line-height: 90px;
+  /* Countdown banner */
+  #mouwishCountdown {
+    background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
+    border: 1px solid var(--gold);
+    border-left: 5px solid var(--gold);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
     text-align: center;
-    overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,.25);
   }
-  /* Subtle horizontal divider mid-card */
-  .fc-card::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; top: 50%;
-    height: 2px;
-    background: rgba(0,0,0,.35);
-    z-index: 2;
-    pointer-events: none;
+  #mouwishCountdown .label {
+    font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: .12em;
+    text-transform: uppercase; font-weight: 600; color: var(--navy);
+    margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
   }
-  .fc-card .fc-digit-current,
-  .fc-card .fc-digit-next {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    overflow: hidden;
-  }
-  .fc-card .fc-digit-next {
-    transform: rotateX(-180deg);
-  }
-  .fc-card.flip .fc-digit-current {
-    animation: fc-flip-out .55s cubic-bezier(.4,.05,.3,.95) forwards;
-    transform-origin: center bottom;
-  }
-  .fc-card.flip .fc-digit-next {
-    animation: fc-flip-in .55s cubic-bezier(.4,.05,.3,.95) forwards;
-    transform-origin: center top;
-  }
-  @keyframes fc-flip-out {
-    0%   { transform: rotateX(0); }
-    100% { transform: rotateX(-180deg); }
-  }
-  @keyframes fc-flip-in {
-    0%   { transform: rotateX(180deg); }
-    100% { transform: rotateX(0); }
-  }
-  .fc-label {
-    font-family: 'Oswald', sans-serif;
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--navy);
-    font-weight: 600;
+  #mouwishCountdown .label img { width: 18px; height: 18px; vertical-align: middle; }
+  #mouwishClosed {
+    font-family: 'Oswald', sans-serif; font-size: 15px; letter-spacing: .06em;
+    text-transform: uppercase; font-weight: 600; color: #C0392B; padding: 8px;
   }
 
-  /* In-app: black cards, white digits */
-  body.inapp .fc-card {
-    background: #000;
-    color: #ffffff;
-  }
-  body.inapp .fc-label { color: var(--navy); }
-  /* In-app: shift clock slightly left, scale up a bit */
-  body.inapp .fc { transform: translateX(-5px); }
-
-  /* In-app: clean edge-to-edge banner, no banner chrome */
+  /* IN-APP: dark theme, banner stripped */
   body.inapp #mouwishCountdown {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 0 14px 0 !important;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 0 14px 0;
   }
-  body.inapp #mouwishCountdown > div:first-child { display: none !important; }
-  body.inapp #mouwishClosed { display: none !important; }
+  body.inapp #mouwishCountdown .label { display: none; }
+  /* Shrink slightly in iframe */
+  body.inapp #flipdown-viewer { transform: scale(0.85) translateX(-5px); transform-origin: top center; }
 
-  /* Mobile: smaller cards */
-  @media (max-width: 540px) {
-    .fc-card { width: 54px; height: 70px; font-size: 42px; line-height: 70px; }
-    .fc { gap: 8px; }
-  }
-  @media (max-width: 380px) {
-    .fc-card { width: 46px; height: 62px; font-size: 36px; line-height: 62px; }
-    .fc { gap: 6px; }
-  }
-
-  /* ============================================================
-     ADVISEMENT
-     ============================================================ */
+  /* Advisement */
   .advisement {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
     border: 1px solid var(--gold);
@@ -208,9 +132,7 @@
   }
   .advisement-close:hover { color: var(--navy); }
 
-  /* ============================================================
-     TOOLBAR + PILLS
-     ============================================================ */
+  /* Toolbar + pills */
   .toolbar {
     display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
     margin-bottom: 18px; background: white;
@@ -251,9 +173,7 @@
     border-color: #0a1a30;
     text-shadow: 0 1px 0 rgba(0,0,0,.5);
   }
-  .pill.active:hover {
-    background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%);
-  }
+  .pill.active:hover { background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%); }
   .pill .count {
     color: var(--muted); margin: 0; font-weight: 500; text-shadow: none;
     font-size: 10px; letter-spacing: .04em;
@@ -271,9 +191,6 @@
       0 2px 3px rgba(11,31,58,.25);
   }
 
-  /* ============================================================
-     GRID + CARDS
-     ============================================================ */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -329,7 +246,6 @@
   }
   footer a { color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--gold); }
 
-  /* Mobile: tighter toolbar */
   @media (max-width: 480px) {
     .pill { padding: 5px 8px; font-size: 11px; gap: 1px; flex-shrink: 1; min-width: 0; }
     .pill .count { font-size: 9px; }
@@ -357,12 +273,12 @@
 
 <main>
 
-<div id="mouwishCountdown" style="display:none;background:linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:4px;padding:18px 22px;margin-bottom:18px;text-align:center">
-  <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px">
-    <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
+<div id="mouwishCountdown" style="display:none">
+  <div class="label">
+    <img src="../hourglass.png" alt=""> Submissions Close In
   </div>
-  <div id="fc-clock" class="fc"></div>
-  <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
+  <div id="flipdown-viewer" class="flipdown"></div>
+  <div id="mouwishClosed" style="display:none"></div>
 </div>
 
 <div class="advisement" id="advisement">
@@ -418,20 +334,10 @@
 </footer>
 
 <script>
-  // ============================================================
-  // CONFIG + STATE
-  // ============================================================
   const API_URL = 'https://mouwish-api.mike-a78.workers.dev/api/list';
   const REFRESH_MS = 30000;
+  let allItems = [], filter = 'all', sortMode = 'net', searchQuery = '';
 
-  let allItems = [];
-  let filter = 'all';
-  let sortMode = 'net';
-  let searchQuery = '';
-
-  // ============================================================
-  // FETCH
-  // ============================================================
   async function load() {
     try {
       const res = await fetch(API_URL, { cache: 'no-store' });
@@ -460,20 +366,12 @@
   }
 
   function render() {
-    const grid = document.getElementById('grid');
-    const empty = document.getElementById('empty');
+    const grid = document.getElementById('grid'), empty = document.getElementById('empty');
     let items = filter === 'all' ? allItems.slice() : allItems.filter(i => i.mou === filter);
-
     if (searchQuery) {
       items = items.filter(i => {
-        const haystack = (
-          (i.title || '') + ' ' +
-          (i.proposal || '') + ' ' +
-          (i.proposalHtml || '') + ' ' +
-          (i.category || '') + ' ' +
-          (i.mou || '')
-        ).toLowerCase();
-        return haystack.includes(searchQuery);
+        const hay = ((i.title||'')+' '+(i.proposal||'')+' '+(i.proposalHtml||'')+' '+(i.category||'')+' '+(i.mou||'')).toLowerCase();
+        return hay.includes(searchQuery);
       });
     }
     items.sort((a, b) => {
@@ -495,10 +393,7 @@
     article.className = 'item';
     const head = document.createElement('div');
     head.className = 'item-head';
-    head.innerHTML = `
-      <span class="mou-tag">${escapeHtml(i.mou || '')}</span>
-      <span class="cat-tag">${escapeHtml(i.category || '')}</span>
-    `;
+    head.innerHTML = `<span class="mou-tag">${escapeHtml(i.mou||'')}</span><span class="cat-tag">${escapeHtml(i.category||'')}</span>`;
     article.appendChild(head);
     const proposal = document.createElement('div');
     proposal.className = 'proposal';
@@ -507,16 +402,9 @@
     const foot = document.createElement('div');
     foot.className = 'item-foot';
     foot.innerHTML = `
-      <span class="thumb up" title="Upvotes">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>
-        ${i.thumbsUp || 0}
-      </span>
-      <span class="thumb down" title="Downvotes">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(180deg)"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>
-        ${i.thumbsDown || 0}
-      </span>
-      <span class="ts">${escapeHtml(tsStr)}</span>
-    `;
+      <span class="thumb up" title="Upvotes"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>${i.thumbsUp||0}</span>
+      <span class="thumb down" title="Downvotes"><svg viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(180deg)"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>${i.thumbsDown||0}</span>
+      <span class="ts">${escapeHtml(tsStr)}</span>`;
     article.appendChild(foot);
     return article;
   }
@@ -545,13 +433,11 @@
         node.setAttribute('href', href);
         node.setAttribute('target', '_blank');
         node.setAttribute('rel', 'noopener noreferrer');
-        sanitizeNode(node);
-        return;
+        sanitizeNode(node); return;
       }
       if (['b','strong','i','em','u','br'].includes(tag)) {
         Array.from(node.attributes).forEach(a => node.removeAttribute(a.name));
-        sanitizeNode(node);
-        return;
+        sanitizeNode(node); return;
       }
       sanitizeNode(node);
       unwrap(node);
@@ -563,9 +449,6 @@
     parent.removeChild(el);
   }
 
-  // ============================================================
-  // EVENTS: pills
-  // ============================================================
   document.getElementById('toolbar').addEventListener('click', e => {
     const btn = e.target.closest('.pill');
     if (!btn) return;
@@ -575,9 +458,6 @@
     render();
   });
 
-  // ============================================================
-  // EVENTS: 3-dot menu + search
-  // ============================================================
   const menuBtn = document.getElementById('menuBtn');
   const menuDropdown = document.getElementById('menuDropdown');
   const searchBox = document.getElementById('searchBox');
@@ -602,9 +482,6 @@
     });
   });
 
-  // ============================================================
-  // ADVISEMENT
-  // ============================================================
   (function setupAdvisement() {
     const advisement = document.getElementById('advisement');
     if (!advisement) return;
@@ -620,9 +497,6 @@
     });
   })();
 
-  // ============================================================
-  // GO
-  // ============================================================
   load();
   setInterval(load, REFRESH_MS);
   document.addEventListener('visibilitychange', () => {
@@ -630,118 +504,44 @@
   });
 </script>
 
-<!-- ============================================================
-     CUSTOM FLIP CLOCK
-     ============================================================ -->
+<!-- FlipDown countdown -->
+<script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 <script>
-(function(){
-  // Mark inapp early for theming
-  if (new URLSearchParams(location.search).get('inapp') === '1') {
-    document.body.classList.add('inapp');
-  }
+(async function(){
+  // Detect iframe-in-app view (uses dark theme)
+  const isInApp = new URLSearchParams(location.search).get('inapp') === '1';
+  if (isInApp) document.body.classList.add('inapp');
+  // Pick theme: light on public viewer, dark in app
+  const theme = isInApp ? 'dark' : 'light';
 
-  const LABELS = ['Days', 'Hours', 'Min', 'Sec'];
-  let cards = [];  // [{el, current, next}] for each digit position
-
-  function buildClock(container) {
-    container.innerHTML = '';
-    cards = [];
-    for (let g = 0; g < 4; g++) {
-      const group = document.createElement('div');
-      group.className = 'fc-group';
-      const cardWrap = document.createElement('div');
-      cardWrap.style.display = 'flex';
-      cardWrap.style.gap = '4px';
-
-      // Two digits per group
-      for (let d = 0; d < 2; d++) {
-        const card = document.createElement('div');
-        card.className = 'fc-card';
-        const cur = document.createElement('div');
-        cur.className = 'fc-digit-current';
-        cur.textContent = '0';
-        const nxt = document.createElement('div');
-        nxt.className = 'fc-digit-next';
-        nxt.textContent = '0';
-        card.appendChild(cur);
-        card.appendChild(nxt);
-        cardWrap.appendChild(card);
-        cards.push({ el: card, current: cur, next: nxt, value: '0' });
-      }
-      group.appendChild(cardWrap);
-      const label = document.createElement('div');
-      label.className = 'fc-label';
-      label.textContent = LABELS[g];
-      group.appendChild(label);
-      container.appendChild(group);
-    }
-  }
-
-  function setDigit(idx, newVal) {
-    const c = cards[idx];
-    if (c.value === newVal) return;
-    c.next.textContent = newVal;
-    c.el.classList.remove('flip');
-    void c.el.offsetWidth;  // reflow to restart animation
-    c.el.classList.add('flip');
-    setTimeout(() => {
-      c.current.textContent = newVal;
-      c.el.classList.remove('flip');
-    }, 550);
-    c.value = newVal;
-  }
-
-  function update(deadline) {
-    const left = deadline - Date.now();
-    if (left <= 0) return false;
-    const totalSec = Math.floor(left / 1000);
-    const days = Math.floor(totalSec / 86400);
-    const hrs  = Math.floor((totalSec % 86400) / 3600);
-    const mins = Math.floor((totalSec % 3600) / 60);
-    const secs = totalSec % 60;
-    const vals = [
-      String(days).padStart(2, '0'),
-      String(hrs).padStart(2, '0'),
-      String(mins).padStart(2, '0'),
-      String(secs).padStart(2, '0'),
-    ];
-    let idx = 0;
-    vals.forEach(v => {
-      setDigit(idx++, v[0]);
-      setDigit(idx++, v[1]);
-    });
-    return true;
-  }
-
-  function showClosed() {
-    const clock = document.getElementById('fc-clock');
-    const closed = document.getElementById('mouwishClosed');
+  try {
+    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
+    const d = await r.json();
+    if (!d || !d.deadline) return;
+    const deadline = new Date(d.deadline).getTime();
+    if (isNaN(deadline)) return;
     const banner = document.getElementById('mouwishCountdown');
-    clock.style.display = 'none';
-    closed.style.display = 'block';
-    closed.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
-    if (banner) {
+    const fdEl = document.getElementById('flipdown-viewer');
+    const closedEl = document.getElementById('mouwishClosed');
+    banner.style.display = 'block';
+    if (deadline <= Date.now()) {
+      fdEl.style.display = 'none';
+      closedEl.style.display = 'block';
+      closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
       banner.style.background = 'rgba(192,57,43,.08)';
       banner.style.borderColor = '#C0392B';
+      return;
     }
-  }
-
-  (async function init(){
-    try {
-      const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
-      const d = await r.json();
-      if (!d || !d.deadline) return;
-      const deadline = new Date(d.deadline).getTime();
-      if (isNaN(deadline)) return;
-      const banner = document.getElementById('mouwishCountdown');
-      const clock = document.getElementById('fc-clock');
-      banner.style.display = 'block';
-      if (deadline <= Date.now()) { showClosed(); return; }
-      buildClock(clock);
-      update(deadline);
-      setInterval(() => { if (!update(deadline)) showClosed(); }, 1000);
-    } catch (e) { console.error('clock init failed', e); }
-  })();
+    const uts = Math.floor(deadline / 1000);
+    new FlipDown(uts, 'flipdown-viewer', { theme: theme })
+      .start()
+      .ifEnded(() => {
+        fdEl.style.display = 'none';
+        closedEl.style.display = 'block';
+        closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+        banner.style.background = 'rgba(192,57,43,.08)';
+      });
+  } catch (e) { console.error('clock init failed', e); }
 })();
 </script>
 </body>
