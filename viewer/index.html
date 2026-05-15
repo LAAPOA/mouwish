@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#0b1f3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -363,7 +364,13 @@
 </header>
 
 <main>
-<div id="mouwishCountdown" style="display:none;background:linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:4px;padding:14px 22px;margin-bottom:18px;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--navy);text-align:center"></div>
+<div id="mouwishCountdown" style="display:none;background:linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:4px;padding:18px 22px;margin-bottom:18px;text-align:center">
+  <div style="font-family:'Oswald', sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px">
+    <img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle"> Submissions Close In
+  </div>
+  <div id="flipdown-viewer" class="flipdown flipdown__theme-light" style="margin:0 auto"></div>
+  <div id="mouwishClosed" style="display:none;font-family:'Oswald', sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#C0392B;padding:8px"></div>
+</div>
   <div class="advisement" id="advisement">
     <button class="advisement-close" id="advisement-close" aria-label="Dismiss" title="Dismiss">&times;</button>
     <div class="advisement-head">
@@ -616,32 +623,36 @@
     if (document.visibilityState === 'visible') load();
   });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 <script>
 (async function(){
   try {
-const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
+    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     const d = await r.json();
     if (!d || !d.deadline) return;
     const deadline = new Date(d.deadline).getTime();
     if (isNaN(deadline)) return;
-    const el = document.getElementById('mouwishCountdown');
-    el.style.display = 'block';
-    function tick() {
-      const left = deadline - Date.now();
-      if (left <= 0) { el.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED'; el.style.color = '#C0392B'; el.style.background = 'rgba(192,57,43,.12)'; return; }
-      const days = Math.floor(left / 86400000);
-      const hrs = Math.floor((left % 86400000) / 3600000);
-      const mins = Math.floor((left % 3600000) / 60000);
-      const secs = Math.floor((left % 60000) / 1000);
-      let txt = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px"> CLOSING IN ';
-      if (days > 0) txt += days + 'd ' + hrs + 'h ' + mins + 'm ' + secs + 's';
-      else if (hrs > 0) txt += hrs + 'h ' + mins + 'm ' + secs + 's';
-      else txt += mins + 'm ' + secs + 's';
-      el.innerHTML = txt;
-      setTimeout(tick, 1000);
+    const banner = document.getElementById('mouwishCountdown');
+    const fdEl = document.getElementById('flipdown-viewer');
+    const closedEl = document.getElementById('mouwishClosed');
+    banner.style.display = 'block';
+    if (deadline <= Date.now()) {
+      fdEl.style.display = 'none';
+      closedEl.style.display = 'block';
+      closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+      banner.style.background = 'rgba(192,57,43,.08)';
+      banner.style.borderColor = '#C0392B';
+      return;
     }
-    tick();
+    const uts = Math.floor(deadline / 1000);
+    new FlipDown(uts, 'flipdown-viewer', { theme: 'light' })
+      .start()
+      .ifEnded(() => {
+        fdEl.style.display = 'none';
+        closedEl.style.display = 'block';
+        closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+        banner.style.background = 'rgba(192,57,43,.08)';
+      });
   } catch (e) {}
 })();
 </script>
