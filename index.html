@@ -6,7 +6,6 @@
 <title>LAAPOA MOU Wish List</title>
 <meta name="theme-color" content="#0b1f3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -591,6 +590,47 @@
     width: 40px; height: 2px; background: var(--gold);
     margin: 0 auto 12px;
   }
+  /* Custom flip clock */
+  .fc { display: flex; justify-content: center; gap: 12px; margin: 0 auto; perspective: 600px; }
+  .fc-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .fc-card {
+    position: relative; width: 70px; height: 90px;
+    background: var(--navy, #0b1f3a);
+    color: #fff;
+    border-radius: 8px;
+    font-family: 'Oswald', 'Inter', sans-serif;
+    font-weight: 700; font-size: 56px; line-height: 90px; text-align: center;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  }
+  .fc-card::after {
+    content: ''; position: absolute; left: 0; right: 0; top: 50%;
+    height: 2px; background: rgba(0,0,0,.35); z-index: 2; pointer-events: none;
+  }
+  .fc-card .fc-digit-current,
+  .fc-card .fc-digit-next {
+    position: absolute; inset: 0;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .fc-card .fc-digit-next { transform: rotateX(-180deg); }
+  .fc-card.flip .fc-digit-current { animation: fc-flip-out .55s cubic-bezier(.4,.05,.3,.95) forwards; transform-origin: center bottom; }
+  .fc-card.flip .fc-digit-next    { animation: fc-flip-in  .55s cubic-bezier(.4,.05,.3,.95) forwards; transform-origin: center top; }
+  @keyframes fc-flip-out { 0% { transform: rotateX(0); } 100% { transform: rotateX(-180deg); } }
+  @keyframes fc-flip-in  { 0% { transform: rotateX(180deg); } 100% { transform: rotateX(0); } }
+  .fc-label {
+    font-family: 'Oswald', 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: #d8d2c0; font-weight: 600;
+  }
+  @media (max-width: 540px) {
+    .fc-card { width: 54px; height: 70px; font-size: 42px; line-height: 70px; }
+    .fc { gap: 8px; }
+  }
+  @media (max-width: 380px) {
+    .fc-card { width: 46px; height: 62px; font-size: 36px; line-height: 62px; }
+    .fc { gap: 6px; }
+  }
 </style>
 </head>
 <body>
@@ -611,7 +651,7 @@
 <div class="countdown" id="countdown">
       <div class="countdown-label" style="text-align:center;margin-bottom:6px">Submissions Close In</div>
       <div class="countdown-deadline" id="countdown-deadline" style="text-align:center;margin-bottom:14px">Wednesday, May 20, 2026 at 12:00 PM Pacific</div>
-      <div id="flipdown-form" class="flipdown flipdown__theme-light" style="margin:0 auto;transform:translateX(-8px)"></div>
+      <div id="fc-clock" class="fc" style="transform:translateX(-8px)"></div>
     </div>
 
     <div class="intro">
@@ -774,6 +814,66 @@ function showClosedScreen() {
     document.title = '404 · MOU Wish List Closed · LAAPOA';
   }
 
+// Custom flip clock helpers
+  const FC_LABELS = ['Days', 'Hours', 'Min', 'Sec'];
+  let fcCards = [];
+
+  function fcBuild(container) {
+    container.innerHTML = '';
+    fcCards = [];
+    for (let g = 0; g < 4; g++) {
+      const group = document.createElement('div');
+      group.className = 'fc-group';
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'display:flex;gap:4px';
+      for (let d = 0; d < 2; d++) {
+        const card = document.createElement('div');
+        card.className = 'fc-card';
+        const cur = document.createElement('div'); cur.className = 'fc-digit-current'; cur.textContent = '0';
+        const nxt = document.createElement('div'); nxt.className = 'fc-digit-next'; nxt.textContent = '0';
+        card.appendChild(cur); card.appendChild(nxt);
+        wrap.appendChild(card);
+        fcCards.push({ el: card, current: cur, next: nxt, value: '0' });
+      }
+      group.appendChild(wrap);
+      const lbl = document.createElement('div');
+      lbl.className = 'fc-label';
+      lbl.textContent = FC_LABELS[g];
+      group.appendChild(lbl);
+      container.appendChild(group);
+    }
+  }
+
+  function fcSetDigit(idx, newVal) {
+    const c = fcCards[idx];
+    if (c.value === newVal) return;
+    c.next.textContent = newVal;
+    c.el.classList.remove('flip');
+    void c.el.offsetWidth;
+    c.el.classList.add('flip');
+    setTimeout(() => { c.current.textContent = newVal; c.el.classList.remove('flip'); }, 550);
+    c.value = newVal;
+  }
+
+  function fcUpdate() {
+    const left = DEADLINE.getTime() - Date.now();
+    if (left <= 0) { showClosedScreen(); return false; }
+    const total = Math.floor(left / 1000);
+    const days = Math.floor(total / 86400);
+    const hrs  = Math.floor((total % 86400) / 3600);
+    const mins = Math.floor((total % 3600) / 60);
+    const secs = total % 60;
+    const vals = [
+      String(days).padStart(2, '0'),
+      String(hrs).padStart(2, '0'),
+      String(mins).padStart(2, '0'),
+      String(secs).padStart(2, '0'),
+    ];
+    let idx = 0;
+    vals.forEach(v => { fcSetDigit(idx++, v[0]); fcSetDigit(idx++, v[1]); });
+    return true;
+  }
+
   function initCountdown() {
     if (!DEADLINE) {
       const cd = document.getElementById('countdown');
@@ -789,14 +889,10 @@ function showClosedScreen() {
         });
       } catch(e) {}
     }
-    if (DEADLINE.getTime() <= Date.now()) {
-      showClosedScreen();
-      return;
-    }
-    const uts = Math.floor(DEADLINE.getTime() / 1000);
-    new FlipDown(uts, 'flipdown-form', { theme: 'light' })
-      .start()
-      .ifEnded(() => { showClosedScreen(); });
+    if (DEADLINE.getTime() <= Date.now()) { showClosedScreen(); return; }
+    fcBuild(document.getElementById('fc-clock'));
+    fcUpdate();
+    setInterval(fcUpdate, 1000);
   }
 
   const CATEGORIES = [
@@ -1295,6 +1391,5 @@ function showClosedScreen() {
 
   addRow(document.querySelector('.cat-block'));
 </script>
-<script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 </body>
 </html>
