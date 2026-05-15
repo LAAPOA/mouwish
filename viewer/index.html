@@ -90,6 +90,9 @@
   /* Shrink slightly in iframe */
   body.inapp #flipdown-viewer { transform: scale(0.85) translateX(-5px); transform-origin: top center; }
 
+  /* Public viewer only: shift flip clock 5px left */
+  body:not(.inapp) #flipdown-viewer { transform: translateX(-5px); }
+
   /* Advisement */
   .advisement {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
@@ -139,6 +142,15 @@
     border: 1px solid var(--line); padding: 8px 10px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
+  /* Public viewer only: pills spread evenly across toolbar */
+  body:not(.inapp) .toolbar { padding: 8px 14px; }
+  body:not(.inapp) .toolbar-pills {
+    flex: 1;
+    display: flex; align-items: center;
+    justify-content: space-evenly;
+    gap: 6px; min-width: 0;
+  }
+  body:not(.inapp) .spacer { display: none; }
   .pill {
     background: linear-gradient(180deg, #fdfaf0 0%, #ece4cc 100%);
     border: 1px solid #b8a878;
@@ -297,10 +309,12 @@
 </div>
 
 <div class="toolbar" id="toolbar">
-  <button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
-  <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
-  <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
-  <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
+  <div class="toolbar-pills">
+    <button class="pill active" data-mou="all"><span>All</span><span class="count" id="count-all">0</span></button>
+    <button class="pill" data-mou="MOU 30/39"><span>LAX</span><span class="count" id="count-MOU 30/39">0</span></button>
+    <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
+    <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
+  </div>
   <div class="spacer"></div>
   <div class="menu-wrap" style="position:relative">
     <button class="menu-btn" id="menuBtn" aria-label="Menu">⋮</button>
@@ -511,8 +525,8 @@
   // Detect iframe-in-app view (uses dark theme)
   const isInApp = new URLSearchParams(location.search).get('inapp') === '1';
   if (isInApp) document.body.classList.add('inapp');
-  // Pick theme: light on public viewer, dark in app
-  const theme = isInApp ? 'dark' : 'light';
+  // Black flip clock on public viewer, dark in app (both dark theme)
+  const theme = 'dark';
 
   try {
     const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
