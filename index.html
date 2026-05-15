@@ -595,21 +595,21 @@
   .fc-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .fc-sep {
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 20px;
     font-weight: 700;
-    color: rgba(rgba(11,31,58,.4));
-    line-height: 20px;
+    color: rgba(11,31,58,.4);
+    line-height: 35px;
     padding: 0 1px;
   }
 .fc-card {
-    position: relative; width: 16px; height: 20px;
+    position: relative; width: 27px; height: 35px;
     background: #b91c1c;
     color: #fff;
-    border-radius: 2px;
+    border-radius: 3px;
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-weight: 700; font-size: 12px; line-height: 20px; text-align: center;
+    font-weight: 700; font-size: 20px; line-height: 35px; text-align: center;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
   }
   .fc-card::after {
     content: ''; position: absolute; left: 0; right: 0; top: 50%;
@@ -631,15 +631,18 @@
     font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
     color: #b91c1c; font-weight: 600;
   }
-@media (max-width: 540px) {
-    .fc-card { width: 40px; height: 54px; font-size: 30px; line-height: 54px; }
-    .fc { gap: 6px; }
-    .fc-sep { font-size: 30px; line-height: 54px; }
+/* Phone landscape / small tablet (481px–900px) */
+  @media (min-width: 481px) and (max-width: 900px) {
+    .fc-card { width: 24px; height: 32px; font-size: 18px; line-height: 32px; }
+    .fc-sep  { font-size: 18px; line-height: 32px; }
+    .fc      { gap: 5px; }
   }
-  @media (max-width: 380px) {
-    .fc-card { width: 34px; height: 46px; font-size: 26px; line-height: 46px; }
-    .fc { gap: 4px; }
-    .fc-sep { font-size: 26px; line-height: 46px; }
+  /* Phone portrait (≤ 480px) */
+  @media (max-width: 480px) {
+    .fc-card { width: 18px; height: 24px; font-size: 14px; line-height: 24px; border-radius: 2px; }
+    .fc-sep  { font-size: 14px; line-height: 24px; padding: 0; }
+    .fc      { gap: 4px; }
+    .fc-label { font-size: 9px; }
   }
 
   /* Also shrink the parent container so it doesn't reserve full-size space */
