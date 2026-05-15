@@ -346,10 +346,37 @@
     border-bottom: 1px solid var(--gold);
   }
 /* Compact FlipDown when embedded inside memberinfo iframe */
-  body.inapp .flipdown { transform: scale(0.55); transform-origin: top center; }
-  body.inapp #flipdown-wrap { height: 85px; }
-  body.inapp #mouwishCountdown { padding: 12px 14px 0 14px !important; margin-bottom: 12px !important; }
-  body.inapp #mouwishCountdown > div:first-child { font-size: 11px !important; margin-bottom: 8px !important; }</style>
+/* In-app: clean edge-to-edge flip clock, no banner chrome */
+  body.inapp #mouwishCountdown {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 14px 0 !important;
+  }
+  body.inapp #mouwishCountdown > div:first-child { display: none !important; }  /* hide label + hourglass */
+  body.inapp #mouwishClosed { display: none !important; }  /* hide closed caption */
+  body.inapp #flipdown-wrap { height: auto; overflow: visible; }
+  body.inapp .flipdown { transform: scale(0.85); transform-origin: top center; }
+
+  /* Custom theme — LAAPOA navy + gold, only when in app */
+  body.inapp .flipdown__theme-light .rotor-group-heading::before {
+    color: var(--navy);
+    font-weight: 600;
+  }
+  body.inapp .flipdown__theme-light .rotor,
+  body.inapp .flipdown__theme-light .rotor-leaf-front,
+  body.inapp .flipdown__theme-light .rotor-leaf-rear,
+  body.inapp .flipdown__theme-light .rotor-top,
+  body.inapp .flipdown__theme-light .rotor-bottom {
+    background-color: var(--navy);
+    color: var(--gold-bright);
+  }
+  body.inapp .flipdown__theme-light .rotor::before {
+    background-color: rgba(255,255,255,.06);
+  }
+  body.inapp .flipdown__theme-light .rotor::after {
+    background-color: rgba(0,0,0,.4);
+  }</style>
 </head>
 <body>
 
