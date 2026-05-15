@@ -169,23 +169,59 @@
     padding: 10px 12px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
-  .pill {
-    background: transparent;
-    border: 1px solid var(--line);
-    padding: 7px 14px;
+.pill {
+    background: linear-gradient(180deg, #fdfaf0 0%, #ece4cc 100%);
+    border: 1px solid #b8a878;
+    padding: 8px 16px;
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
     letter-spacing: .08em;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--navy);
     cursor: pointer;
     border-radius: 999px;
-    transition: all .15s;
+    transition: all .12s;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.85),
+      inset 0 -2px 4px rgba(124,99,42,.18),
+      0 2px 3px rgba(11,31,58,.25),
+      0 4px 8px -3px rgba(11,31,58,.18);
+    text-shadow: 0 1px 0 rgba(255,255,255,.6);
   }
-  .pill:hover { border-color: var(--navy); }
-  .pill.active { background: var(--navy); color: var(--gold-bright); border-color: var(--navy); }
-  .pill .count { color: var(--muted); margin-left: 6px; font-weight: 500; }
+  .pill:hover {
+    background: linear-gradient(180deg, #fffceb 0%, #f1e8ce 100%);
+    border-color: var(--navy);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.9),
+      inset 0 -2px 4px rgba(124,99,42,.2),
+      0 4px 6px rgba(11,31,58,.3),
+      0 6px 12px -3px rgba(11,31,58,.22);
+  }
+  .pill:active {
+    transform: translateY(1px);
+    box-shadow:
+      inset 0 2px 4px rgba(124,99,42,.35),
+      inset 0 -1px 0 rgba(255,255,255,.4),
+      0 1px 2px rgba(11,31,58,.2);
+  }
+  .pill.active {
+    background: linear-gradient(180deg, #1a2f54 0%, #061226 100%);
+    color: var(--gold-bright);
+    border-color: #0a1a30;
+    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+    box-shadow:
+      inset 0 1px 0 rgba(227,191,99,.35),
+      inset 0 -2px 4px rgba(0,0,0,.5),
+      0 2px 3px rgba(11,31,58,.4),
+      0 4px 10px -3px rgba(11,31,58,.5);
+  }
+  .pill.active:hover {
+    background: linear-gradient(180deg, #22386a 0%, #0a1a30 100%);
+    transform: translateY(-1px);
+  }
+  .pill .count { color: var(--muted); margin-left: 6px; font-weight: 500; text-shadow: none; }
   .pill.active .count { color: rgba(227,191,99,.7); }
   .spacer { flex: 1; }
   .sort-select {
@@ -344,10 +380,10 @@
   </div>
 
   <div class="toolbar" id="toolbar">
-    <button class="pill active" data-mou="all">All <span class="count" id="count-all">0</span></button>
-    <button class="pill" data-mou="MOU 30/39">Airport Police <span class="count" id="count-MOU 30/39">0</span></button>
-    <button class="pill" data-mou="MOU 28">LAPD Municipal <span class="count" id="count-MOU 28">0</span></button>
-    <button class="pill" data-mou="MOU 65">Park Rangers <span class="count" id="count-MOU 65">0</span></button>
+<button class="pill active" data-mou="all">All <span class="count" id="count-all">0</span></button>
+    <button class="pill" data-mou="MOU 30/39">LAX <span class="count" id="count-MOU 30/39">0</span></button>
+    <button class="pill" data-mou="MOU 28">28 <span class="count" id="count-MOU 28">0</span></button>
+    <button class="pill" data-mou="MOU 65">65 <span class="count" id="count-MOU 65">0</span></button>
     <div class="spacer"></div>
     <select class="sort-select" id="sort">
       <option value="net">Sort: Most Upvoted</option>
