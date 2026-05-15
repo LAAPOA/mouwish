@@ -603,14 +603,15 @@
     opacity: .5;
   }
   .fc-card {
-    position: relative; width: 48px; height: 64px;
+.fc-card {
+    position: relative; width: 36px; height: 48px;
     background: var(--navy, #0b1f3a);
     color: #fff;
-    border-radius: 6px;
+    border-radius: 5px;
     font-family: 'Oswald', 'Inter', sans-serif;
-    font-weight: 700; font-size: 38px; line-height: 64px; text-align: center;
+    font-weight: 700; font-size: 28px; line-height: 48px; text-align: center;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,.22);
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
   }
   .fc-card::after {
     content: ''; position: absolute; left: 0; right: 0; top: 50%;
@@ -642,18 +643,7 @@
     .fc { gap: 4px; }
     .fc-sep { font-size: 26px; line-height: 46px; }
   }
-  /* Shrink the FlipDown clock on the form */
-  #flipdown-form {
-    transform: scale(0.7);
-    transform-origin: top center;
-    margin-bottom: -30px;
-  }
-  /* Force the FlipDown clock smaller on the form */
-  #flipdown-form,
-  #flipdown-form.flipdown,
-  .countdown #flipdown-form {
-    transform: scale(0.55) !important;
-    transform-origin: top center !important;
+
   }
   /* Also shrink the parent container so it doesn't reserve full-size space */
   .countdown {
@@ -663,6 +653,13 @@
   /* Pull next section up to close the gap from scaling */
   #countdown {
     margin-bottom: -50px !important;
+  }
+  /* Put deadline date on its own line above the clock */
+  #countdown-deadline {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 14px;
   }
 </style>
 </head>
@@ -683,7 +680,7 @@
 
 <div class="countdown" id="countdown">
 <div class="countdown-deadline" id="countdown-deadline" style="text-align:center;margin-bottom:14px">&nbsp;</div>
-      <div id="fc-clock" class="fc" style="transform:translateX(-8px)"></div>
+      <div id="fc-clock" class="fc"></div>
     </div>
 
     <div class="intro">
