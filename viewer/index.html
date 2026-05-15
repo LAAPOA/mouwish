@@ -345,7 +345,11 @@
     text-decoration: none;
     border-bottom: 1px solid var(--gold);
   }
-</style>
+/* Compact FlipDown when embedded inside memberinfo iframe */
+  body.inapp .flipdown { transform: scale(0.55); transform-origin: top center; }
+  body.inapp #flipdown-wrap { height: 85px; }
+  body.inapp #mouwishCountdown { padding: 12px 14px 0 14px !important; margin-bottom: 12px !important; }
+  body.inapp #mouwishCountdown > div:first-child { font-size: 11px !important; margin-bottom: 8px !important; }</style>
 </head>
 <body>
 
@@ -628,6 +632,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 <script>
 (async function(){
+  if (new URLSearchParams(location.search).get('inapp') === '1') {
+    document.body.classList.add('inapp');
+  }
   try {
     const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     const d = await r.json();
@@ -638,16 +645,6 @@
     const fdEl = document.getElementById('flipdown-viewer');
     const closedEl = document.getElementById('mouwishClosed');
 banner.style.display = 'block';
-    // Shrink the flip clock when embedded inside memberinfo iframe
-    const isInApp = new URLSearchParams(location.search).get('inapp') === '1';
-    if (isInApp) {
-      const wrap = document.getElementById('flipdown-wrap');
-      fdEl.style.transform = 'scale(0.65)';
-      fdEl.style.transformOrigin = 'top center';
-      wrap.style.height = '95px';
-      banner.style.padding = '14px 22px 0 22px';
-      banner.style.marginBottom = '12px';
-    }
     if (deadline <= Date.now()) {
       fdEl.style.display = 'none';
       closedEl.style.display = 'block';
