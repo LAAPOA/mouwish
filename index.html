@@ -213,13 +213,9 @@
   .cat-body.show { display: block; }
 
   /* Rich wish row */
-  .wish-row {
+.wish-row {
     padding: 12px 0;
     border-bottom: 1px dashed var(--line);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-    align-items: start;
   }
   .wish-row:last-child { border-bottom: none; }
 
@@ -262,13 +258,23 @@
     background: var(--line);
     margin: 0 4px;
   }
-  .rich-hint {
-    margin-left: auto;
+.rich-hint {
     font-size: 10px;
     color: var(--muted);
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
     letter-spacing: .08em;
+  }
+  .rich-btn-remove {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .rich-btn-remove:hover {
+    background: var(--danger) !important;
+    border-color: var(--danger) !important;
+    color: white !important;
   }
   @media (max-width: 480px) { .rich-hint { display: none; } }
 
@@ -660,6 +666,16 @@
     width: 100%;
     text-align: center;
     margin-bottom: 14px;
+  }
+  .rich-btn-remove {
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .rich-btn-remove:hover {
+    background: var(--danger) !important;
+    border-color: var(--danger) !important;
+    color: white !important;
   }
 </style>
 </head>
@@ -1117,7 +1133,7 @@ function fcBuild(container) {
     const rows = block.querySelector('[data-rows]');
     const row = document.createElement('div');
     row.className = 'wish-row';
-    row.innerHTML = `
+row.innerHTML = `
       <div class="rich-wrap">
         <div class="rich-toolbar" data-toolbar>
           <button type="button" class="rich-btn" data-cmd="bold"   title="Bold (Ctrl+B)"><b>B</b></button>
@@ -1125,13 +1141,10 @@ function fcBuild(container) {
           <span class="rich-sep"></span>
           <button type="button" class="rich-btn link" data-cmd="link" title="Insert link (Ctrl+K)">🔗</button>
           <span class="rich-hint">Paste a URL to auto-link</span>
+          <button type="button" class="rich-btn rich-btn-remove" title="Remove this item" data-remove>&times;</button>
         </div>
-        <div class="rich-area"
-             contenteditable="true"
-             data-rich
-             data-placeholder="Describe your proposal..."></div>
+        <div class="rich-area" contenteditable="true" data-rich data-placeholder="Describe your proposal..."></div>
       </div>
-      <button type="button" class="btn-remove" title="Remove" data-remove>&times;</button>
     `;
     rows.appendChild(row);
 
