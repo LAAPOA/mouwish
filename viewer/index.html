@@ -88,10 +88,11 @@
   }
   body.inapp #mouwishCountdown .label { display: none; }
   /* Shrink slightly in iframe */
-  body.inapp #flipdown-viewer { transform: scale(0.85) translateX(-5px); transform-origin: top center; }
+  body.inapp #flipdown-viewer { transform: scale(0.85); transform-origin: top center; }
 
-  /* Public viewer only: shift flip clock 5px left */
-  body:not(.inapp) #flipdown-viewer { transform: translateX(-5px); }
+  /* All views: center clock container */
+  #mouwishCountdown { text-align: center; }
+  #flipdown-viewer { display: inline-block; }
 
   /* Advisement */
   .advisement {
@@ -142,15 +143,15 @@
     border: 1px solid var(--line); padding: 8px 10px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
-  /* Public viewer only: pills spread evenly across toolbar */
-  body:not(.inapp) .toolbar { padding: 8px 14px; }
-  body:not(.inapp) .toolbar-pills {
+  /* All views: pills spread evenly across toolbar */
+  .toolbar { padding: 8px 14px; }
+  .toolbar-pills {
     flex: 1;
     display: flex; align-items: center;
     justify-content: space-evenly;
     gap: 6px; min-width: 0;
   }
-  body:not(.inapp) .spacer { display: none; }
+  .spacer { display: none; }
   .pill {
     background: linear-gradient(180deg, #fdfaf0 0%, #ece4cc 100%);
     border: 1px solid #b8a878;
@@ -286,6 +287,9 @@
 <main>
 
 <div id="mouwishCountdown" style="display:none">
+  <div class="label">
+    <img src="../hourglass.png" alt=""> Submissions Close In
+  </div>
   <div id="flipdown-viewer" class="flipdown"></div>
   <div id="mouwishClosed" style="display:none"></div>
 </div>
