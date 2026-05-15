@@ -594,11 +594,11 @@ const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     function tick() {
       const left = deadline - Date.now();
       if (left <= 0) { el.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED'; el.style.color = '#C0392B'; el.style.background = 'rgba(192,57,43,.12)'; return; }
-      const d = Math.floor(left / 86400000);
-      const h = Math.floor((left % 86400000) / 3600000);
-      const m = Math.floor((left % 3600000) / 60000);
-      const s = Math.floor((left % 60000) / 1000);
-let txt = '<img src="hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px"> CLOSING IN ';
+      const days = Math.floor(left / 86400000);
+      const hrs = Math.floor((left % 86400000) / 3600000);
+      const mins = Math.floor((left % 3600000) / 60000);
+      const secs = Math.floor((left % 60000) / 1000);
+      let txt = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px"> CLOSING IN ';
       if (days > 0) txt += days + 'd ' + hrs + 'h ' + mins + 'm ' + secs + 's';
       else if (hrs > 0) txt += hrs + 'h ' + mins + 'm ' + secs + 's';
       else txt += mins + 'm ' + secs + 's';
