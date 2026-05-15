@@ -584,11 +584,7 @@
 <script>
 (async function(){
   try {
-    const r = await fetch('https://laapoa-api.mike-a78.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'getMouwishDeadline' })
-    });
+const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     const d = await r.json();
     if (!d || !d.deadline) return;
     const deadline = new Date(d.deadline).getTime();
