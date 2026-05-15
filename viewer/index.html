@@ -371,14 +371,20 @@ body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin:
     color: var(--navy);
     font-weight: 600;
   }
-  body.inapp .flipdown__theme-light .rotor,
+body.inapp .flipdown__theme-light .rotor,
+  body.inapp .flipdown__theme-light .rotor-leaf,
   body.inapp .flipdown__theme-light .rotor-leaf-front,
   body.inapp .flipdown__theme-light .rotor-leaf-rear,
   body.inapp .flipdown__theme-light .rotor-top,
   body.inapp .flipdown__theme-light .rotor-bottom {
-    background-color: var(--navy);
-    color: #ffffff;
-    text-shadow: none;
+    background: var(--navy) !important;
+    background-image: none !important;
+    background-color: var(--navy) !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
   }
   body.inapp .flipdown__theme-light .rotor::before {
     background-color: rgba(255,255,255,.04);
@@ -388,7 +394,24 @@ body.inapp .flipdown { transform: scale(1.1) translateX(-5px); transform-origin:
   }
   body.inapp .flipdown__theme-light .rotor::after {
     background-color: rgba(0,0,0,.4);
-  }</style>
+  }
+/* Stack count below pill label */
+  .pill {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+    line-height: 1.1 !important;
+  }
+  .pill .count {
+    margin: 0 !important;
+    font-size: 10px !important;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+  .pill.active .count { color: rgba(227,191,99,.7); }
+</style>
 </head>
 <body>
 
