@@ -648,6 +648,22 @@
     transform-origin: top center;
     margin-bottom: -30px;
   }
+  /* Force the FlipDown clock smaller on the form */
+  #flipdown-form,
+  #flipdown-form.flipdown,
+  .countdown #flipdown-form {
+    transform: scale(0.55) !important;
+    transform-origin: top center !important;
+  }
+  /* Also shrink the parent container so it doesn't reserve full-size space */
+  .countdown {
+    overflow: hidden;
+    max-width: 100%;
+  }
+  /* Pull next section up to close the gap from scaling */
+  #countdown {
+    margin-bottom: -50px !important;
+  }
 </style>
 </head>
 <body>
