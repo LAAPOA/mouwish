@@ -683,6 +683,22 @@
   }
   .fc-card .fc-digit-current { transform: rotateX(0deg); }
   .fc-card .fc-digit-next    { transform: rotateX(-180deg); }
+.countdown {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-lg);
+    color: var(--paper);
+    text-align: center;
+    margin-top: 30px;  /* room above for clock to sit */
+    position: relative;
+  }
+  #fc-clock {
+    transform: translateY(-30px);  /* lift clock up over the top edge */
+    margin-bottom: -20px;  /* recapture some space below */
+  }
 </style>
 </head>
 <body>
