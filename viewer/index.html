@@ -528,9 +528,15 @@ const APP_TOKEN = '8f8d1e2d16e4d2da0a6016ff3a124d2194cbf1570c77f20ccd0255322e3fe
     article.className = 'item';
     if (i.itemId) article.dataset.itemId = i.itemId;
 
-    // Mark whether this item is votable by the current member
+// Mark whether this item is votable by the current member
+    // Treat MOU 30, MOU 39, and "MOU 30/39" as one group for LAX
+    function normalizeMou(mou) {
+      var m = (mou || '').trim();
+      if (m === 'MOU 30' || m === 'MOU 39' || m === 'MOU 30/39') return 'LAX';
+      return m;
+    }
     const itemMou = (i.mou || '').trim();
-    const matches = CAN_VOTE() && itemMou && itemMou === MEMBER_MOU;
+    const matches = CAN_VOTE() && itemMou && normalizeMou(itemMou) === normalizeMou(MEMBER_MOU);
     if (CAN_VOTE() && i.itemId) {
       if (matches) article.classList.add('can-vote');
       else article.classList.add('locked');
