@@ -460,12 +460,12 @@
       // for the public viewer. For voting, laapoa-api will identify items by itemId,
       // which is returned by /api/list-with-id called server-side via the worker.
       // BUT viewer needs itemIds for vote calls in-app, so use list-with-id if we can.
+const APP_TOKEN = '8f8d1e2d16e4d2da0a6016ff3a124d2194cbf1570c77f20ccd0255322e3fe985';
       const res = IS_INAPP
         ? await fetch(MOUWISH_API + '/api/list-with-id', {
             method: 'POST',
             headers: { 'content-type': 'text/plain;charset=utf-8' },
-            // appToken intentionally omitted — list-with-id requires auth.
-            // We rely on the public /api/list as fallback.
+            body: JSON.stringify({ appToken: APP_TOKEN }),
           }).catch(() => null)
         : null;
       let data;
