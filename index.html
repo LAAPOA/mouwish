@@ -854,7 +854,11 @@ let DEADLINE = null;
 
 async function loadDeadline() {
   try {
-    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
+    const r = await fetch('https://laapoa-api.mike-a78.workers.dev/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'getMouwishDeadline' }),
+    });
     const d = await r.json();
     if (d && d.deadline) DEADLINE = new Date(d.deadline);
   } catch (e) {}
