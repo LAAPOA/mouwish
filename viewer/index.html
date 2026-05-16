@@ -58,7 +58,6 @@
   header .meta b { color: var(--gold-bright); }
   main { max-width: 1100px; margin: 0 auto; padding: 22px 20px 80px; }
 
-  /* Countdown banner */
   #mouwishCountdown {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
     border: 1px solid var(--gold);
@@ -68,31 +67,36 @@
     margin-bottom: 18px;
     text-align: center;
   }
-  #mouwishCountdown .label {
-    font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: .12em;
-    text-transform: uppercase; font-weight: 600; color: var(--navy);
-    margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  #mouwishCountdown .label img { width: 18px; height: 18px; vertical-align: middle; }
   #mouwishClosed {
     font-family: 'Oswald', sans-serif; font-size: 15px; letter-spacing: .06em;
     text-transform: uppercase; font-weight: 600; color: #C0392B; padding: 8px;
   }
-
-  /* IN-APP: dark theme, banner stripped */
   body.inapp #mouwishCountdown {
     background: transparent;
     border: none;
     padding: 0;
     margin: 0 0 14px 0;
   }
-  body.inapp #mouwishCountdown .label { display: none; }
-  /* Shrink slightly in iframe */
   body.inapp #flipdown-viewer { transform: scale(0.85); transform-origin: top center; }
-
-  /* All views: center clock container */
-  #mouwishCountdown { text-align: center; }
   #flipdown-viewer { display: inline-block; }
+
+  /* MOU restriction banner (shown in-app) */
+  .mou-banner {
+    background: linear-gradient(135deg, #1a2f54 0%, #0b1f3a 100%);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: center;
+    display: none;
+  }
+  .mou-banner b { color: white; }
+  body.inapp.has-mou .mou-banner { display: block; }
 
   /* Advisement */
   .advisement {
@@ -140,11 +144,9 @@
   .toolbar {
     display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
     margin-bottom: 18px; background: white;
-    border: 1px solid var(--line); padding: 8px 10px;
+    border: 1px solid var(--line); padding: 8px 14px;
     box-shadow: 0 8px 20px -14px rgba(6,18,38,.3);
   }
-  /* All views: pills spread evenly across toolbar */
-  .toolbar { padding: 8px 14px; }
   .toolbar-pills {
     flex: 1;
     display: flex; align-items: center;
@@ -192,7 +194,6 @@
     font-size: 10px; letter-spacing: .04em;
   }
   .pill.active .count { color: rgba(227,191,99,.7); }
-  .spacer { flex: 1; min-width: 0; }
   .menu-btn {
     background: linear-gradient(180deg,#fdfaf0 0%,#ece4cc 100%);
     border: 1px solid #b8a878; border-radius: 999px;
@@ -236,10 +237,51 @@
     border-top: 1px dashed var(--line); padding-top: 10px;
     font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: .04em;
   }
-  .thumb { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
+  .thumb {
+    display: inline-flex; align-items: center; gap: 5px; color: var(--muted);
+    padding: 4px 8px; border-radius: 4px;
+    transition: all .12s; user-select: none;
+  }
   .thumb.up   { color: var(--up); }
   .thumb.down { color: var(--down); }
   .thumb svg { width: 14px; height: 14px; }
+  /* In-app & match-MOU: thumbs become clickable */
+  body.inapp .item.can-vote .thumb {
+    cursor: pointer;
+    background: #f5f2ea;
+    border: 1px solid var(--line);
+  }
+  body.inapp .item.can-vote .thumb:hover {
+    background: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(11,31,58,.15);
+  }
+  body.inapp .item.can-vote .thumb:active { transform: translateY(0); }
+  body.inapp .thumb.voted-up {
+    background: #d4ecd9 !important;
+    border-color: var(--up) !important;
+    color: var(--up) !important;
+    font-weight: 700;
+  }
+  body.inapp .thumb.voted-down {
+    background: #f3d6cc !important;
+    border-color: var(--down) !important;
+    color: var(--down) !important;
+    font-weight: 700;
+  }
+  body.inapp .thumb.busy { opacity: .55; pointer-events: none; }
+  body.inapp .item.locked { opacity: .8; }
+  body.inapp .item.locked .thumb { cursor: not-allowed; }
+  body.inapp .item.locked::after {
+    content: 'Other MOU';
+    position: absolute; top: 8px; right: 10px;
+    background: var(--muted); color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px; letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 2px 6px; border-radius: 2px;
+    opacity: .7;
+  }
   .ts { margin-left: auto; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
   .state { text-align: center; padding: 80px 20px; color: var(--muted); }
   .state h2 {
@@ -259,12 +301,27 @@
   }
   footer a { color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--gold); }
 
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--navy); color: var(--paper);
+    padding: 10px 18px;
+    border-left: 4px solid var(--gold);
+    box-shadow: 0 8px 20px -8px rgba(0,0,0,.4);
+    font-size: 13px; z-index: 100;
+    transition: transform .3s ease;
+    max-width: 90vw;
+    font-family: 'Inter', sans-serif;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { border-left-color: var(--down); }
+  .toast.ok    { border-left-color: var(--up); }
+
   @media (max-width: 480px) {
     .pill { padding: 5px 8px; font-size: 11px; gap: 1px; flex-shrink: 1; min-width: 0; }
     .pill .count { font-size: 9px; }
     .toolbar { padding: 6px 8px; gap: 4px; }
     .menu-btn { padding: 5px 8px; font-size: 16px; }
-    .spacer { display: none; }
   }
 </style>
 </head>
@@ -287,11 +344,12 @@
 <main>
 
 <div id="mouwishCountdown" style="display:none">
-  <div class="label">
-    <img src="../hourglass.png" alt=""> Submissions Close In
-  </div>
   <div id="flipdown-viewer" class="flipdown"></div>
   <div id="mouwishClosed" style="display:none"></div>
+</div>
+
+<div class="mou-banner" id="mou-banner">
+  Voting unlocked for <b id="mou-banner-name"></b>
 </div>
 
 <div class="advisement" id="advisement">
@@ -302,7 +360,7 @@
   </div>
   <p>This page is a <strong>read-only public board</strong> showing every wish-list idea submitted by LAAPOA members.</p>
   <p><strong>To submit your own idea:</strong> open the submission form at the link below before the deadline. Submissions are anonymous by default, with an option to identify yourself if you want a follow-up.</p>
-  <p><strong>To 👍 or 👎 an idea:</strong> open the LAAPOA membership app and go to the <strong>Announcements</strong> tab. Reactions are tracked per member and can be changed at any time.</p>
+  <p><strong>To 👍 or 👎 an idea:</strong> open the LAAPOA membership app and go to the <strong>Announcements</strong> tab. Reactions are tracked per member and only valid for your own MOU.</p>
   <div class="advisement-actions">
     <a class="advisement-btn" href="../">Submit an idea →</a>
     <a class="advisement-btn alt" href="https://laapoa.github.io/memberinfo/" target="_blank" rel="noopener">Open the LAAPOA app</a>
@@ -348,15 +406,77 @@
   <a href="../">Submit a proposal →</a>
 </footer>
 
+<div class="toast" id="toast"></div>
+
 <script>
-  const API_URL = 'https://mouwish-api.mike-a78.workers.dev/api/list';
+  // ============================================================
+  // CONFIG
+  // ============================================================
+  const MOUWISH_API = 'https://mouwish-api.mike-a78.workers.dev';
+  const LAAPOA_API = 'https://laapoa-api.mike-a78.workers.dev'; // ADJUST IF YOUR WORKER URL DIFFERS
   const REFRESH_MS = 30000;
+
+  const URL_PARAMS = new URLSearchParams(location.search);
+  const IS_INAPP = URL_PARAMS.get('inapp') === '1';
+  if (IS_INAPP) document.body.classList.add('inapp');
+
+  // Auth context, received via postMessage from memberinfo
+  let MEMBER_CID = '';
+  let MEMBER_MOU = '';
+  let MEMBER_TOKEN = '';
+  const CAN_VOTE = () => !!(IS_INAPP && MEMBER_CID && MEMBER_MOU && MEMBER_TOKEN);
+
+  // Local vote state: { itemId: 1 | -1 | 0 }
+  const myVotes = {};
+
   let allItems = [], filter = 'all', sortMode = 'net', searchQuery = '';
 
+  // ============================================================
+  // POSTMESSAGE AUTH HANDSHAKE
+  // ============================================================
+  window.addEventListener('message', e => {
+    // Accept from any laapoa.github.io origin (memberinfo)
+    if (!e.origin || !/^https?:\/\/laapoa\.github\.io/.test(e.origin)) return;
+    const d = e.data;
+    if (!d || d.type !== 'mw-auth') return;
+    MEMBER_CID = String(d.cid || '');
+    MEMBER_MOU = String(d.mou || '');
+    MEMBER_TOKEN = String(d.token || '');
+    if (MEMBER_MOU) {
+      document.body.classList.add('has-mou');
+      const nm = document.getElementById('mou-banner-name');
+      if (nm) nm.textContent = MEMBER_MOU;
+    }
+    // Re-render so thumbs become clickable on matching items
+    render();
+  });
+
+  // ============================================================
+  // LOAD
+  // ============================================================
   async function load() {
     try {
-      const res = await fetch(API_URL, { cache: 'no-store' });
-      const data = await res.json();
+      // Always use /api/list (public, no token). We don't need /api/list-with-id
+      // for the public viewer. For voting, laapoa-api will identify items by itemId,
+      // which is returned by /api/list-with-id called server-side via the worker.
+      // BUT viewer needs itemIds for vote calls in-app, so use list-with-id if we can.
+      const res = IS_INAPP
+        ? await fetch(MOUWISH_API + '/api/list-with-id', {
+            method: 'POST',
+            headers: { 'content-type': 'text/plain;charset=utf-8' },
+            // appToken intentionally omitted — list-with-id requires auth.
+            // We rely on the public /api/list as fallback.
+          }).catch(() => null)
+        : null;
+      let data;
+      if (res && res.ok) {
+        data = await res.json();
+        if (!data.ok) data = null;
+      }
+      if (!data) {
+        const r2 = await fetch(MOUWISH_API + '/api/list', { cache: 'no-store' });
+        data = await r2.json();
+      }
       if (!data.ok) throw new Error(data.error || 'Bad response');
       allItems = data.items || [];
       updateCounts(data.counts || {});
@@ -406,24 +526,122 @@
     const tsStr = ts ? ts.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '';
     const article = document.createElement('article');
     article.className = 'item';
+    if (i.itemId) article.dataset.itemId = i.itemId;
+
+    // Mark whether this item is votable by the current member
+    const itemMou = (i.mou || '').trim();
+    const matches = CAN_VOTE() && itemMou && itemMou === MEMBER_MOU;
+    if (CAN_VOTE() && i.itemId) {
+      if (matches) article.classList.add('can-vote');
+      else article.classList.add('locked');
+    }
+
     const head = document.createElement('div');
     head.className = 'item-head';
     head.innerHTML = `<span class="mou-tag">${escapeHtml(i.mou||'')}</span><span class="cat-tag">${escapeHtml(i.category||'')}</span>`;
     article.appendChild(head);
+
     const proposal = document.createElement('div');
     proposal.className = 'proposal';
     proposal.innerHTML = clientSanitize(i.proposalHtml || escapeHtml(i.proposal || ''));
     article.appendChild(proposal);
+
     const foot = document.createElement('div');
     foot.className = 'item-foot';
+    const myVote = myVotes[i.itemId] || 0;
+    const upClass   = 'thumb up'   + (myVote === 1  ? ' voted-up'   : '');
+    const downClass = 'thumb down' + (myVote === -1 ? ' voted-down' : '');
+    const tipUp   = matches ? (myVote === 1  ? 'Remove upvote'   : 'Upvote') :
+                    (CAN_VOTE() ? 'Vote restricted to ' + escapeHtml(itemMou) + ' members' : 'Upvotes');
+    const tipDown = matches ? (myVote === -1 ? 'Remove downvote' : 'Downvote') :
+                    (CAN_VOTE() ? 'Vote restricted to ' + escapeHtml(itemMou) + ' members' : 'Downvotes');
+
     foot.innerHTML = `
-      <span class="thumb up" title="Upvotes"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>${i.thumbsUp||0}</span>
-      <span class="thumb down" title="Downvotes"><svg viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(180deg)"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg>${i.thumbsDown||0}</span>
+      <span class="${upClass}" data-vote="up" title="${tipUp}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg><span data-up-count>${i.thumbsUp||0}</span></span>
+      <span class="${downClass}" data-vote="down" title="${tipDown}"><svg viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(180deg)"><path d="M7 22V11h3l5-9c1.7 0 3 1.3 3 3v5h4c1.1 0 2 .9 2 2l-2 8c-.3 1.2-1.4 2-2.6 2H7z"/></svg><span data-down-count>${i.thumbsDown||0}</span></span>
       <span class="ts">${escapeHtml(tsStr)}</span>`;
     article.appendChild(foot);
+
+    if (matches && i.itemId) {
+      const upBtn   = foot.querySelector('[data-vote="up"]');
+      const downBtn = foot.querySelector('[data-vote="down"]');
+      upBtn.addEventListener('click',   () => castVote(article, i.itemId, 1));
+      downBtn.addEventListener('click', () => castVote(article, i.itemId, -1));
+    } else if (CAN_VOTE() && i.itemId && !matches) {
+      const upBtn   = foot.querySelector('[data-vote="up"]');
+      const downBtn = foot.querySelector('[data-vote="down"]');
+      const lockClick = () => toast('You can only vote on items in your own MOU (' + MEMBER_MOU + ').', 'error');
+      upBtn.addEventListener('click', lockClick);
+      downBtn.addEventListener('click', lockClick);
+    }
+
     return article;
   }
 
+  // ============================================================
+  // VOTE
+  // ============================================================
+  async function castVote(article, itemId, direction) {
+    if (!CAN_VOTE()) return;
+    const upBtn   = article.querySelector('[data-vote="up"]');
+    const downBtn = article.querySelector('[data-vote="down"]');
+    if (!upBtn || !downBtn) return;
+    if (upBtn.classList.contains('busy')) return;
+
+    const prev = myVotes[itemId] || 0;
+    const newValue = (prev === direction) ? 0 : direction;
+
+    upBtn.classList.add('busy');
+    downBtn.classList.add('busy');
+
+    try {
+      const res = await fetch(LAAPOA_API, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          action: 'mouwishVote',
+          token: MEMBER_TOKEN,
+          cid: MEMBER_CID,
+          itemId,
+          value: newValue,
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      if (data.ok === false) throw new Error(data.error || 'Unknown error');
+
+      myVotes[itemId] = newValue;
+
+      // If response has updated counts, apply them; otherwise refresh list
+      const upEl   = article.querySelector('[data-up-count]');
+      const downEl = article.querySelector('[data-down-count]');
+      if (typeof data.thumbsUp   === 'number') upEl.textContent   = data.thumbsUp;
+      if (typeof data.thumbsDown === 'number') downEl.textContent = data.thumbsDown;
+      upBtn.classList.toggle('voted-up',   newValue === 1);
+      downBtn.classList.toggle('voted-down', newValue === -1);
+
+      toast(newValue === 0 ? 'Vote removed' : (newValue === 1 ? 'Upvoted' : 'Downvoted'), 'ok');
+      setTimeout(load, 600);
+    } catch (err) {
+      console.error('Vote failed:', err);
+      toast(err.message || 'Vote failed', 'error');
+    } finally {
+      upBtn.classList.remove('busy');
+      downBtn.classList.remove('busy');
+    }
+  }
+
+  function toast(msg, kind) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + (kind || '');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ============================================================
+  // UTILITIES
+  // ============================================================
   function escapeHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -464,6 +682,9 @@
     parent.removeChild(el);
   }
 
+  // ============================================================
+  // EVENTS
+  // ============================================================
   document.getElementById('toolbar').addEventListener('click', e => {
     const btn = e.target.closest('.pill');
     if (!btn) return;
@@ -500,12 +721,10 @@
   (function setupAdvisement() {
     const advisement = document.getElementById('advisement');
     if (!advisement) return;
-    const params = new URLSearchParams(window.location.search);
-    const inApp = params.get('inapp') === '1';
     const refIsApp = (document.referrer || '').indexOf('laapoa.github.io/memberinfo') >= 0;
     let dismissedSession = false;
     try { dismissedSession = sessionStorage.getItem('mw-advisement-dismissed') === '1'; } catch (_) {}
-    if (inApp || refIsApp || dismissedSession) advisement.style.display = 'none';
+    if (IS_INAPP || refIsApp || dismissedSession) advisement.style.display = 'none';
     document.getElementById('advisement-close').addEventListener('click', () => {
       advisement.style.display = 'none';
       try { sessionStorage.setItem('mw-advisement-dismissed', '1'); } catch (_) {}
@@ -519,16 +738,9 @@
   });
 </script>
 
-<!-- FlipDown countdown -->
 <script src="https://cdn.jsdelivr.net/npm/flipdown@0.3.2/dist/flipdown.min.js"></script>
 <script>
 (async function(){
-  // Detect iframe-in-app view (uses dark theme)
-  const isInApp = new URLSearchParams(location.search).get('inapp') === '1';
-  if (isInApp) document.body.classList.add('inapp');
-  // Black flip clock on public viewer, dark in app (both dark theme)
-  const theme = 'dark';
-
   try {
     const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
     const d = await r.json();
@@ -542,18 +754,18 @@
     if (deadline <= Date.now()) {
       fdEl.style.display = 'none';
       closedEl.style.display = 'block';
-      closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+      closedEl.innerHTML = 'SUBMISSIONS CLOSED';
       banner.style.background = 'rgba(192,57,43,.08)';
       banner.style.borderColor = '#C0392B';
       return;
     }
     const uts = Math.floor(deadline / 1000);
-    new FlipDown(uts, 'flipdown-viewer', { theme: theme })
+    new FlipDown(uts, 'flipdown-viewer', { theme: 'dark' })
       .start()
       .ifEnded(() => {
         fdEl.style.display = 'none';
         closedEl.style.display = 'block';
-        closedEl.innerHTML = '<img src="../hourglass.png" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;opacity:.5"> SUBMISSIONS CLOSED';
+        closedEl.innerHTML = 'SUBMISSIONS CLOSED';
         banner.style.background = 'rgba(192,57,43,.08)';
       });
   } catch (e) { console.error('clock init failed', e); }
