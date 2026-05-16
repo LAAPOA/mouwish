@@ -598,6 +598,7 @@ const res = IS_INAPP
     downBtn.classList.add('busy');
 
     try {
+    const itemMou = article.querySelector('.mou-tag')?.textContent || '';
       const res = await fetch(LAAPOA_API, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -606,9 +607,10 @@ const res = IS_INAPP
           token: MEMBER_TOKEN,
           cid: MEMBER_CID,
           itemId,
+          itemMou,
           value: newValue,
         }),
-      });
+      }); 
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       if (data.ok === false) throw new Error(data.error || 'Unknown error');
