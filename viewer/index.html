@@ -80,7 +80,6 @@
   body.inapp #flipdown-viewer { transform: scale(0.85); transform-origin: top center; }
   #flipdown-viewer { display: inline-block; }
 
-  /* MOU restriction banner (shown in-app) */
   .mou-banner {
     background: linear-gradient(135deg, #1a2f54 0%, #0b1f3a 100%);
     color: var(--gold-bright);
@@ -98,7 +97,6 @@
   .mou-banner b { color: white; }
   body.inapp.has-mou .mou-banner { display: block; }
 
-  /* Advisement */
   .advisement {
     background: linear-gradient(135deg, #fbf4dd 0%, #f5e8b8 100%);
     border: 1px solid var(--gold);
@@ -140,7 +138,6 @@
   }
   .advisement-close:hover { color: var(--navy); }
 
-  /* Toolbar + pills */
   .toolbar {
     display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
     margin-bottom: 18px; background: white;
@@ -153,7 +150,6 @@
     justify-content: space-evenly;
     gap: 6px; min-width: 0;
   }
-  .spacer { display: none; }
   .pill {
     background: linear-gradient(180deg, #fdfaf0 0%, #ece4cc 100%);
     border: 1px solid #b8a878;
@@ -245,7 +241,6 @@
   .thumb.up   { color: var(--up); }
   .thumb.down { color: var(--down); }
   .thumb svg { width: 14px; height: 14px; }
-  /* In-app & match-MOU: thumbs become clickable */
   body.inapp .item.can-vote .thumb {
     cursor: pointer;
     background: #f5f2ea;
@@ -374,7 +369,6 @@
     <button class="pill" data-mou="MOU 28"><span>28</span><span class="count" id="count-MOU 28">0</span></button>
     <button class="pill" data-mou="MOU 65"><span>65</span><span class="count" id="count-MOU 65">0</span></button>
   </div>
-  <div class="spacer"></div>
   <div class="menu-wrap" style="position:relative">
     <button class="menu-btn" id="menuBtn" aria-label="Menu">⋮</button>
     <div id="menuDropdown" style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--line);border-radius:8px;z-index:30;min-width:220px;box-shadow:0 6px 20px rgba(11,31,58,.18);padding:6px">
@@ -412,30 +406,32 @@
   // ============================================================
   // CONFIG
   // ============================================================
-  const MOUWISH_API = 'https://mouwish-api.mike-a78.workers.dev';
-  const LAAPOA_API = 'https://laapoa-api.mike-a78.workers.dev'; // ADJUST IF YOUR WORKER URL DIFFERS
+  const LAAPOA_API = 'https://laapoa-api.mike-a78.workers.dev/';
   const REFRESH_MS = 30000;
 
   const URL_PARAMS = new URLSearchParams(location.search);
   const IS_INAPP = URL_PARAMS.get('inapp') === '1';
   if (IS_INAPP) document.body.classList.add('inapp');
 
-  // Auth context, received via postMessage from memberinfo
   let MEMBER_CID = '';
   let MEMBER_MOU = '';
   let MEMBER_TOKEN = '';
   const CAN_VOTE = () => !!(IS_INAPP && MEMBER_CID && MEMBER_MOU && MEMBER_TOKEN);
 
-  // Local vote state: { itemId: 1 | -1 | 0 }
-  const myVotes = {};
+  // Normalize MOU 30/39/30-39 to one LAX group for matching
+  function normalizeMou(mou) {
+    const m = String(mou || '').trim();
+    if (m === 'MOU 30' || m === 'MOU 39' || m === 'MOU 30/39') return 'LAX';
+    return m;
+  }
 
+  const myVotes = {};
   let allItems = [], filter = 'all', sortMode = 'net', searchQuery = '';
 
   // ============================================================
   // POSTMESSAGE AUTH HANDSHAKE
   // ============================================================
   window.addEventListener('message', e => {
-    // Accept from any laapoa.github.io origin (memberinfo)
     if (!e.origin || !/^https?:\/\/laapoa\.github\.io/.test(e.origin)) return;
     const d = e.data;
     if (!d || d.type !== 'mw-auth') return;
@@ -447,33 +443,21 @@
       const nm = document.getElementById('mou-banner-name');
       if (nm) nm.textContent = MEMBER_MOU;
     }
-    // Re-render so thumbs become clickable on matching items
     render();
   });
 
   // ============================================================
-  // LOAD
+  // LOAD via laapoa-api mouwishList action
   // ============================================================
   async function load() {
     try {
-      // Always use /api/list (public, no token). We don't need /api/list-with-id
-      // for the public viewer. For voting, laapoa-api will identify items by itemId,
-      // which is returned by /api/list-with-id called server-side via the worker.
-      // BUT viewer needs itemIds for vote calls in-app, so use list-with-id if we can.
-const res = IS_INAPP
-        ? await fetch(MOUWISH_API + '/api/list', {
-            cache: 'no-store',
-          }).catch(() => null)
-        : null;
-      let data;
-      if (res && res.ok) {
-        data = await res.json();
-        if (!data.ok) data = null;
-      }
-      if (!data) {
-        const r2 = await fetch(MOUWISH_API + '/api/list', { cache: 'no-store' });
-        data = await r2.json();
-      }
+      const r = await fetch(LAAPOA_API, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'mouwishList' }),
+        cache: 'no-store',
+      });
+      const data = await r.json();
       if (!data.ok) throw new Error(data.error || 'Bad response');
       allItems = data.items || [];
       updateCounts(data.counts || {});
@@ -525,13 +509,6 @@ const res = IS_INAPP
     article.className = 'item';
     if (i.itemId) article.dataset.itemId = i.itemId;
 
-// Mark whether this item is votable by the current member
-    // Treat MOU 30, MOU 39, and "MOU 30/39" as one group for LAX
-    function normalizeMou(mou) {
-      var m = (mou || '').trim();
-      if (m === 'MOU 30' || m === 'MOU 39' || m === 'MOU 30/39') return 'LAX';
-      return m;
-    }
     const itemMou = (i.mou || '').trim();
     const matches = CAN_VOTE() && itemMou && normalizeMou(itemMou) === normalizeMou(MEMBER_MOU);
     if (CAN_VOTE() && i.itemId) {
@@ -582,7 +559,7 @@ const res = IS_INAPP
   }
 
   // ============================================================
-  // VOTE
+  // VOTE via laapoa-api mouwishVote action
   // ============================================================
   async function castVote(article, itemId, direction) {
     if (!CAN_VOTE()) return;
@@ -598,7 +575,6 @@ const res = IS_INAPP
     downBtn.classList.add('busy');
 
     try {
-    const itemMou = article.querySelector('.mou-tag')?.textContent || '';
       const res = await fetch(LAAPOA_API, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -607,17 +583,15 @@ const res = IS_INAPP
           token: MEMBER_TOKEN,
           cid: MEMBER_CID,
           itemId,
-          itemMou,
           value: newValue,
         }),
-      }); 
+      });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       if (data.ok === false) throw new Error(data.error || 'Unknown error');
 
       myVotes[itemId] = newValue;
 
-      // If response has updated counts, apply them; otherwise refresh list
       const upEl   = article.querySelector('[data-up-count]');
       const downEl = article.querySelector('[data-down-count]');
       if (typeof data.thumbsUp   === 'number') upEl.textContent   = data.thumbsUp;
@@ -644,9 +618,6 @@ const res = IS_INAPP
     toast._t = setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  // ============================================================
-  // UTILITIES
-  // ============================================================
   function escapeHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -687,9 +658,6 @@ const res = IS_INAPP
     parent.removeChild(el);
   }
 
-  // ============================================================
-  // EVENTS
-  // ============================================================
   document.getElementById('toolbar').addEventListener('click', e => {
     const btn = e.target.closest('.pill');
     if (!btn) return;
@@ -747,7 +715,11 @@ const res = IS_INAPP
 <script>
 (async function(){
   try {
-    const r = await fetch('https://mouwish-api.mike-a78.workers.dev/api/config');
+    const r = await fetch('https://laapoa-api.mike-a78.workers.dev/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'getMouwishDeadline' }),
+    });
     const d = await r.json();
     if (!d || !d.deadline) return;
     const deadline = new Date(d.deadline).getTime();
